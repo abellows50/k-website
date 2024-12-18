@@ -86,6 +86,7 @@ function closeNav() {
     <!-- To Hide elements:  -->
     <div style="display:none"> HIDDEN CONTENT </div>
 
+
     <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
     <!--
 <div class="contentBlock" id="2023-mm-ddn">
@@ -94,6 +95,134 @@ function closeNav() {
 </div>
 -->
 <!-- contentBlock DIVS SHOULD BE LEFT JUSTIFIED -->
+
+
+<!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
+
+<div class="contentBlock" id="2024-12-18n">
+  <h5>2024-12-18</h5>
+  <h3>Pipe Networking</h3>
+  <p>For the purposes of these notes, the words server and client will be used only to differentiate two programs with respect to their roles in a connection attempt, and not with respect to their usage once a connection is made.</p>
+  <ul>
+    <li>Server will be the program that starts up and awaits an incoming connection.</li>
+    <li>Client will be the program that initiates a connection to a waiting server.</li>
+  </ul>
+
+  <h3>Handshake</h3>
+  <p>A handshake procedure to ensure that a connection has been established between 2 programs.</p>
+  <p>Both ends of the connection must verify that they can send and receive data to and from each other.</p>
+  <h4>3 way handshake</h4>
+  <ol>
+    <li>Client sends a message to the server (in TCP networking, this is called SYN). At this point, the server knows it can receive data.</li>
+    <li>Server sends a response to the client based on the client's initial message (SYN_ACK). At this point the client knows it can recieve and send data.</li>
+    <li>Client sends a response back to the server based on the server's response (ACK). At this point, the server knows it can receive and send data.</li>
+  </ol>
+
+  <h3>Server-Client Designs</h3>
+  <p>There are a number of different ways to implement server/client systems.</p>
+  <h4>Single Use Server</h4>
+  <p>In this system, the server exits along with the client.</p>
+  <ul>
+    <li>Handshake</li>
+    <li>Client: sends data to server.</li>
+    <li>Server: gets response, acknowledges the response.</li>
+    <li>Client: gets the response, acknowledges the acknowledgement.  </li>
+  </ul>
+  <p>When the client exits, so does the server.</p>
+
+
+  <h4>Persistent Single Client Server</h4>
+  <p>Pay attention to the setup/handshake which will be useful for your lab.</p>
+  <p>In this system, the server will communicate with a single client. When the client exits, the server will reset to handle a new client.</p>
+  <p>A Well Known Pipe (WKP) is a named pipe that exists only while the server exists, all clients know the name.</p>
+  <p>A Private Pipe (PP) is a pipe that exists while the client is running. The client tells the server about this pipe. We will use a named pipe with the name that is the PID of the client.</p>
+  <ul>
+    <li>Setup
+      <ol>
+        <li>Server creates a WKP and waits for a connection.</li>
+        <li>Client creates a private fifo (can use the PID in the name so it is unique.)</li>
+        <li>Server waits for a connection to the WKP.</li>
+      </ol>
+    </li>
+    <li>Handshake
+      <ol>
+          <li>Client: sends a message to server. (SYN) We will send the PP name to server. e.g. "120350"</li>
+          <li>Server: gets the message, Removes the WKP. Sends an (SYN_ACK) We can send a random int to the PP.</li>
+          <li>Client: gets the acknowledgement. Removes the PP. Sends the (ACK) its own acknowledgement to the server (same random integer + 1).</li>
+          <li>Server reads and verifies the 2nd acknowledgement. This completes the handshake and both ends know that both send/recieve are working.</li>
+      </ol>
+    </li>
+    <li>Operation
+      <ol>
+        <li>Server and client send data back and forth in a pre-determined pattern (protocol).</li>
+      </ol>
+    </li>
+    <li>Reset
+      <ol>
+        <li>Client exits, server closes any connections to the client.</li>
+        <li>Server goes back to setup and recreates a WKP...</li>
+      </ol>
+    </li>
+  </ul>
+  <p>The only way to quit the server is via ctl-c. This is fine, but it will leave the WKP on the filesystem. A cleaner exit would involve creating a signal handler that catches SIGINT and remove the WKP before exiting. Some of you did this on your prior lab.</p>
+
+
+  <h4>Forking Server</h4>
+  <p>Pay attention to the setup/handshake which will be useful for your lab.</p>
+  <p>In this system, the server will create subservers for client communication. This will allow for multiple simultanious connections.</p>
+  <p>The main server's job is to wait for a connection and create subservers.</p>
+  <p>The subserver will handle all communication with the client.</p>
+  <p>The client can work exactly the same as the persistent server client.</p>
+  <ul>
+    <li>Server: creates WKP and blocks until connection.</li>
+    <li>Client: creates PP, connects to WKP, sends PP name, blocks on connection to PP.</li>
+    <li>Server: gets connection on WKP, creates subserver.</li>
+    <li>Server: Closes & removes WKP from disk.</li>
+    <li>Server: Resets back to step 1.</li>
+    <li>Subserver: reads PP name from client. (Subserver still has the WKP in memory)</li>
+    <li>Subserver: sends secret message to client.(ack1)</li>
+    <li>Client: gets subserver secret, removes PP, responds with (ack2). </li>
+    <li>Subserver: verfies response from client, completing 3-way handshake.</li>
+  </ul>
+
+
+  <p>The following table will show the ordered sequence or steps. The steps can happen concurrently EXCEPT for when either server or client is blocked due to opening a pipe or reading.</p>
+  <p>This sequence also shows how to design a setup()/handshake() method for the server/client.</p>
+  <table>
+	<tr><th>$ ./server                              </th><th>$ ./client</th></tr>
+	<tr><td>-- server_handshake() --                  </td><td>-- client_handshake() --</td></tr>
+	<tr><td>-- server_setup() --                      </td><td>3  Client making Private pipe</td></tr>
+	<tr><td>1 Server making the pipe.                 </td><td>3  Client opening WKP [Unblock Server]</td></tr>
+	<tr><td>2 Server opening the WKP.[BLOCKS]       </td><td>3  Client Writing PP to WKP (matches with step 5)</td></tr>
+	<tr><td>4 Server removing the WKP.               </td><td>3  Client Opening PP [BLOCKS]</td></tr>
+	<tr><td>-- end server_setup() --                  </td><td>8 Client Deleting PP</td></tr>
+	<tr><td>5 Server reading SYN (the pid)           </td><td>8 Client reading SYN_ACK (matches with step 7)</td></tr>
+	<tr><td>6 Server opening the Private Pipe [Unblock client]</td><td>8 Client Sending (matches with step 9) ACK</td></tr>
+	<tr><td>7 Server sending SYN_ACK                  </td><td>-- end client_handshake() --</td></tr>
+	<tr><td>9 Server reading final ACK                </td></tr>
+	<tr><td>9 Server received ACK, handshake complete</td></tr>
+	<tr><td>-- end server_handshake() --              </td></tr>
+  </table>
+
+
+
+    <h4>Classwork/HW</h4>
+     <p>Clone the lab: <a href="https://classroom.github.com/a/qfzEQx6Z">https://classroom.github.com/a/qfzEQx6Z</a> </p>
+     <ol>
+      <li>Fill in the function definitions for server_handshake and client_handshake in pipe_networking.c.</li>
+      <li>These should do everything needed to establish a 3-way handshake between the client and server.</li>
+      <li>
+        <p>Make sure you include diagnostic print messages in your functions.</p>
+        <p>Note: To remove files, there is a simple function remove(PATH) that will remove the file at PATH.</p>
+      </li>
+      <li>Make and test</li>
+      <li>Your final version should not modify any other files for this assignment.</li>
+      <li>You CAN test to see if the handshake worked by writing a byte from client to server and vice versa.</li>
+  </ol>
+    <p><a href="#TOP">[back to top of page]</a></p>
+  </div>
+
+
 
 <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
 
