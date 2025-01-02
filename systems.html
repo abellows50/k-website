@@ -73,7 +73,6 @@ function closeNav() {
         <li><a href="#2024-11-17n">2024-11-17 <br> Signals </a></li>
         <li><a href="#2024-11-18n">2024-11-18 <br> Lab 10 </a></li>
         <li><a href="#2024-11-18n">2024-11-20 <br> exec! </a></li>
-
         <li><a href="#2024-11-18n">2024-12-13 <br> pipes </a></li>
 
   </ul>
@@ -96,6 +95,156 @@ function closeNav() {
 -->
 <!-- contentBlock DIVS SHOULD BE LEFT JUSTIFIED -->
 
+
+
+<!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
+
+<div class="contentBlock" id="2024-12-14n">
+  <h5>2025-01-02</h5>
+  <h3>Upgrade your pipe server!</h3>
+  <p>Deadline is Tuesday.</p>
+  <p>You should have tested your client and server by sending information back and forth somehow.</p>
+  <h3>Basic client/erver functionality:</h3>
+  <p>Now we want our <strong>server</strong> to choose a random int x from 0 to 100. Print "Sending VALUE_OF_NUMBER to client(s)" and then send it to the client. Do this once every second (sleep after sending).</p>
+  <p>Now we want our <strong>client</strong> to reapatedly: read the int sent by the server and print it.</p>
+  <p>If you ctrl-c the client or the server they should both exit gracefully.</p>
+
+  <h3>Update 1</h3>
+  <p>Make a new file for this part: <code>persistant_server.c</code>™ (copy your working basic_server.c and start with that).</p>
+  <ol>
+    <li>Have the server loop to accept a new clients after the first client disconnects (ctrl-c the client). That is many sequential clients, one after another.</li>
+    <li>Close the old file descriptors before you end your loop, or you will have an ever-growing file table. (close from_client and to_client)</li>
+    <li>You must now also add a sighandler for SIGINT. This will delete the WKP befor ending the server.</li>
+  </ol>
+
+  <h3>Update 2</h3>
+  <p>Make a new file for this part: <code>forking_server.c</code> (copy your working persistant_server.c and start with that.) This server fork to handle multiple concurrent connections. </p>
+  <p>The server should only:</p>
+  <ol>
+    <li>create the WKP</li>
+    <li>await a connection</li>
+    <li>upon connection remove the WKP.</li>
+    <li>Fork to create a subserver which will handle the client.</li>
+    <li>Go back to step 1.</li>
+  </ol>
+  <p>A subserver should:</p>
+  <ol>
+    <li>Complete the 3-way handshake.</li>
+    <li>Handle all commucations with the server.</li>
+  </ol>
+  <p>Notice the server steps 1-3 are all contained in the server setup command! Your server sets up the handshake, but your subserver actually does the rest of the handshake.</p>
+  <p>You should write a half-handshake function that takes in the from_client fd as an additional argument: <code>server_handshake_half(int *to_client, int from_client)</code> </p>
+  <p>Your server will <code>server_setup()</code> and your sub-server will finish the job with <code>server_handshake_half()</code></p>
+
+  <p>To provide some communication, after the handshake: </p>
+  <ul>
+    <li>Modify the client + subserver to allow multiple requests per connection.</li>
+    <li>Do this by sending a string to the server and get responses every second (use sleep(1) after recieving your message, print the result.)</li>
+    <p>You can test by spawning multiple clients and verifying they all can maintain communication with the subservers</p>
+  </ul>
+  <p>The end result should be one server that processes client input from any number of clients.</p>
+  <p>You can spawn 2 or more clients, each of which should be printing data every second.</p>
+
+  <h3>UPDATE:</h3>
+  <p>Required make targets:</p>
+  <ul>
+    <li>compile as usual: <code>make compile</code> </li>
+    <li>to run the forking server: <code>make server</code> </li>
+    <li>to run the client: <code>make client</code> </li>
+  </ul>
+  <p>I will run multiple clients in separate terminals this way.</p>
+
+  <h3>Final Projects</h3>
+  <p>Your final project calendar:</p>
+  <ul>
+    <li>Jan 2: Choose 0-2 partners and a topic. If you have 2 partners, your project should be larger in scope.</li>
+    <li>Jan 3: Create a proposal with your project outline and how you intend to create it.</li>
+    <li>Jan 4: Work on your project.</li>
+    <li>Jan 16: (Tues) all projects due. Final commits 8am.</li>
+    <li>Jan 16-19: (Tue-Fri) all groups present (5-10 minutes)</li>
+    <li>Jan 22: (Mon) all groups present (5-10 minutes)</li>
+  </ul>
+
+  <h3>Project requirements</h3>
+  <ul>
+    <li>The final project is to be a significant piece of work that illustrates many of the ideas and techniques studied in the class:
+      <ul class="subList">
+        <li>Allocating memory</li>
+        <li>Working with files</li>
+        <li>Finding information about files (stat and such)</li>
+        <li>Processes (fork, exec etc.)</li>
+        <li>Signals</li>
+        <li>Shared memory</li>
+        <li>Semaphores</li>
+        <li>Pipes (named and unnamed)</li>
+        <li>Sockets</li>
+      </ul>
+    </li>
+  <li>
+    Your project should be able to meaningfully use at least 4 of these concepts.
+    Don't just toss in a topic if there is no need for it in your project.
+    Part of your design process should include considering how to incorporate the class material.
+  </li>
+  <li>
+    You should also focus on creating a program that works well.
+    It is better to have fewer features in a project that compiles &amp; runs smoothly
+    than to have a lot of features that contain a lot of bugs.
+  </li>
+  <li>When designing your project, it is best to be able to generate a base working project early and then add features modularly as time goes on.</li>
+  <li>You may work with one or two partners, all partners should be in the same section.</li>
+  </ul>
+
+
+  <h3>Project Ideas/Suggestions</h3>
+
+  <ul>
+    <li>
+      If you are having difficulty coming up with a project idea, look back at some of the bigger assignments
+      we-ve done over the semester and think about how you can add to them. These are just some ideas to get
+      you going, please do not consider theses as superior to any other ideas you might have.
+      <ul class="subList">
+        <li>
+          The music library could become much more useful by incoperating a music player (fork/exec),
+          saving the library data (maybe even as a binary file), interacting with actual music files etc.
+        </li>
+        <li>The data file/csv assignment could become a more useful data organizing program.</li>
+        <li>Semaphone could be tunred into a pipe/socket based live game.</li>
+        <li>With pipes/sockets, you could write simplified versions of different kinds of servers.</li>
+        <li>With pipes/sockets and semaphores you could write a SIMPLE database program.</li>
+      </ul>
+    </li>
+    <li>
+      If you are going to write a multi-program system with sockets/pipes, start simply.
+      For example, if you-re making a 2 player game, then just have the programs connect
+      directly do each other, instead of wirting a separate server to connnect them.
+    </li>
+    <li>
+      As stated earlier, it's better to <strong>start small and grow</strong> than start large and have to cut things out (or live with bugs).
+    </li>
+
+  </ul>
+
+<h3>URGENT NOTE:</h3>
+<p>we have not covered networking and we are about 1 week short to cover the material.</p>
+<p>I will post notes, and sample code, but do NOT suggest networking except for groups that want to learn more on their own.</p>
+
+<h3>Prior Projects</h3>
+<ul>
+  <li>Distributed computing tool</li>
+  <li>file editor (text/spreadsheet)</li>
+  <li>Database program</li>
+  <li>Client server program
+    <ul class="subList">
+      <li>chat</li>
+      <li>simple game many players concurrently</li>
+      <li>2-player game tournament</li>
+    </ul>
+  </li>
+</ul>
+
+
+  <p><a href="#TOP">[back to top of page]</a></p>
+</div>
 
 <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
 
