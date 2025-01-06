@@ -96,6 +96,23 @@ function closeNav() {
 <!-- contentBlock DIVS SHOULD BE LEFT JUSTIFIED -->
 
 <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
+<div class="contentBlock" id="2025-01-06n">
+  <h5>2025-01-06</h5>
+  <h3>Final Project Repo:</h3>
+  <p>Please add your proposal to the repo today.</p>
+  <p>Please use formatting in your md files. The DEVLOG in particular should be formatted so that you do not have merge conflicts with your partner.</p>
+  <p>Please create the README and replace the placeholder text. You should not have a readme that says "Group Name" in it.</p>
+  <p><a href="https://classroom.github.com/a/Vh67aNdh">https://classroom.github.com/a/Vh67aNdh</a> </p>
+  <h3>Today/Tonight</h3>
+  <p>Design the functions/comments/headers of your project. Organization is extremely important.</p>
+  <p>Create the skeleton files for your project and organize things as much as you can.</p>
+  <p>All members should try to commit from EACH device of theirs, so they know that their commits show up the correct way. Please check the commits from the website to ensure ALL devices commit using YOUR name and link to your profile. You should see your avatar icon next to your commits as well. </p>
+  <p>Make sure you are each working on your own dedicated branch, and merging onto main when you have good code.</p>
+  <p>The <strong>only place you should commit changes directly to main</strong> would be the DEVLOG, and README files.</p>
+  <p><a href="#TOP">[back to top of page]</a></p>
+</div>
+
+<!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
 <div class="contentBlock" id="2025-01-03h">
     <h5>2025-01-03</h5>
   <h2>Final Projects!</h2>
@@ -204,14 +221,15 @@ function closeNav() {
   <p>Deadline is Tuesday.</p>
   <p>You should have tested your client and server by sending information back and forth somehow.</p>
   <h3>Basic client/erver functionality:</h3>
-  <p>Now we want our <strong>server</strong> to choose a random int x from 0 to 100. Print "Sending VALUE_OF_NUMBER to client(s)" and then send it to the client. Do this once every second (sleep after sending).</p>
+  <p>Now we want our <strong>server</strong> to choose a random int x from 0 to 100 and then send it to the client. Do this once every second (sleep after sending).</p>
   <p>Now we want our <strong>client</strong> to reapatedly: read the int sent by the server and print it.</p>
   <p>If you ctrl-c the client or the server they should both exit gracefully.</p>
 
   <h3>Update 1</h3>
   <p>Make a new file for this part: <code>persistant_server.c</code>™ (copy your working basic_server.c and start with that).</p>
   <ol>
-    <li>Have the server loop to accept a new clients after the first client disconnects (ctrl-c the client). That is many sequential clients, one after another.</li>
+    <li>Have the server loop to accept a new clients after the first client disconnects (ctrl-c the client).
+    That is many sequential clients, one after another.</li>
     <li>Close the old file descriptors before you end your loop, or you will have an ever-growing file table. (close from_client and to_client)</li>
     <li>You must now also add a sighandler for SIGINT. This will delete the WKP befor ending the server.</li>
   </ol>
@@ -615,8 +633,9 @@ $
 </div>
 
 
-<!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
 
+
+<!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
 <div class="contentBlock" id="2024-12-10n">
   <h5>2024-12-10</h5>
     <h3>Using semaphores in C</h3>
