@@ -99,6 +99,203 @@ function closeNav() {
 -->
 <!-- contentBlock DIVS SHOULD BE LEFT JUSTIFIED -->
 
+
+
+<!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
+<div class="contentBlock" id="2025-01-09n">
+  <h5>2025-01-09</h5>
+  <h3Select</h3>
+  <ul>
+    <li>
+    <code>select</code> is a function that monitors multiple file descriptors, allowing a program to read from different sources.
+    </li>
+    <li>
+      <code>select</code> can also be used for writing to files, but we will not focus on that usage.
+    </li>
+    <li>
+      <code>select</code> will <strong>block</strong> on all the provided file descriptors, and return when any of them have data to be read.
+    </li>
+    <li>
+      <code>select</code> returns the number of file descriptors that have data to read, and then modifies a parameter to set which descriptors are available. If an error occured, return <code>-1</code>.
+    </li>
+    <li>
+      To use select, you create a set of potential file descriptors using the type <code>fd_set</code>. Most of what we want from <code>select</code> involves interacting with an <code>fd_set</code> variable by using various macros.
+    </li>
+    <li>To use <code>select</code> we must:
+      <ul>
+        <li>Create an <code>fd_set</code> variable.
+          <ul>
+            <li><code>fd_set desciptors;</code></li>
+          </ul>
+        </li>
+        <li>Clear the <code>fd_set</code> (<code>FD_ZERO</code>)
+          <ul>
+            <li><code>FD_ZERO( &amp;desciptors );</code></li>
+          </ul>
+        </li>
+        <li>Add file descriptors to the <code>fd_set</code> (<code>FD_SET</code>).
+          <ul>
+            <li><code>FD_SET(listen_socket, &amp;descriptors);</code></li>
+          </ul>
+        </li>
+        <li>Call <code>select</code> and wait until any of the provided descriptors are available.
+          <ul>
+            <li><code>select(max_descriptor+1, &amp;desciptors, NULL, NULL, NULL);</code></li>
+            <li>The first argument is <code>1</code> more than the largest file desciptor in <code>desciptors</code>. This is an artifact of how <code>select</code> works.</li>
+            <li>The second argument is the <code>fd_set</code> of descriptors waiting to be read from.</li>
+            <li>The third and fourth arguments are for descriptors for other actions, like writing.</li>
+            <li>The final argument allows you to set a timeout, if <code>NULL</code>, <code>select</code> will block indefinitely.</li>
+            <li>Returns the number of file descriptors that are ready (this is usually 1).</li>
+            <li>Modifies <code>desciptors</code> to contain the desciptors that are available.</li>
+          </ul>
+        </li>
+        <li>Once <code>select</code> returns, loop through the potential file desciptors and determine which one is available (<code>FD_ISSET</code>).
+          <ul>
+            <li><code>FD_ISSET(listen_socket, &amp;desciptors);</code></li>
+          </ul>
+        </li>
+        <li>
+          If you are going to use <code>select</code> multiple times, you-ll have to repeatedly zero out the <code>fd_set</code> and
+          add the descriptors to it, since <code>select</code> modifies it.
+        </li>
+        <li>It is usually a good idea to have a backup <code>fd_set</code> to keep all your descriptors in.</li>
+      </ul>
+    </li>
+    <li>Putting it all together for a program that reads from a socket or <code>stdin</code>:
+      <pre class="codeblock"><code>fd_set read_fds;
+int listen_socket, client_socket;
+char buffer[100];
+
+FD_ZERO(&amp;read_fds);
+//assume this functuion correcly sets up a listening socket
+listen_socket = server_setup();
+
+//add listen_socket and stdin to the set
+FD_SET(listen_socket, &amp;read_fds);
+//add stdin's file desciptor
+FD_SET(STDIN_FILENO, &amp;read_fds);
+
+int i = select(listen_socket+1, &amp;read_fds, NULL, NULL, NULL);
+
+//if standard in, use fgets
+if (FD_ISSET(STDIN_FILENO, &amp;read_fds)) {
+  fgets(buffer, sizeof(buffer), stdin);
+}
+//if socket, accept the connection
+//assume this function works correctly
+if (FD_ISSET(listen_socket, &amp;read_fds)) {
+  client_socket = server_connect(listen_socket);
+}
+  </code></pre>
+    </li>
+  </ul>
+
+  <h3>Server with Select demo</h3>
+  <p>This server is compatible with telnet for testing. To make a similar client to go with it, you would use select as well, but whatever you type gets sent over the socket instead of printed.</p>
+  <p>This includes some code snippets to prevent the open port from lingering.</p>
+  <p>To connect to the server use the command <code>telnet 127.0.0.1 PORT</code> e.g. <code>telnet 127.0.0.1 9998</code> </p>
+  <p>You can exit out of telnet by pressing Ctrl+] and then typing quit</p>
+  <p>The server will EITHER: 1. process STDIN or 2. accept a connection and process the message from the client.</p>
+  <p>If you want to make a server that listens to multiple connections, you would have to engineer a more complicated soluition using this tool.</p>
+  <pre class="codeblock"><code>#include &ltsys/socket.h>
+#include &ltsys/types.h>
+#include &ltsys/socket.h>
+#include &ltnetdb.h>
+#include &lttime.h>
+#include &ltstdio.h>
+#include &ltstring.h>
+#include &lterrno.h>
+#include &ltunistd.h>
+#include &ltstdlib.h>
+
+int main(){
+    struct addrinfo * hints, * results;
+    hints = calloc(1,sizeof(struct addrinfo));
+    char* PORT = "9998";
+
+
+    hints->ai_family = AF_INET;
+    hints->ai_socktype = SOCK_STREAM; //TCP socket
+    hints->ai_flags = AI_PASSIVE; //only needed on server
+    getaddrinfo(NULL, PORT , hints, &results);  //NULL is localhost or 127.0.0.1
+
+    //create socket
+    int listen_socket = socket(results->ai_family, results->ai_socktype, results->ai_protocol);\
+
+    //this code allows the port to be freed after program exit.  (otherwise wait a few minutes)
+    int yes = 1;
+    if ( setsockopt(listen_socket, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(yes)) == -1 ) {
+        printf("sockopt  error\n");
+        printf("%s\n",strerror(errno));
+        exit(-1);
+    }
+
+    int err = bind(listen_socket, results->ai_addr, results->ai_addrlen);
+    if(err == -1){
+        printf("Error binding: %s",strerror(errno));
+        exit(1);
+    }
+    listen(listen_socket, 3);//3 clients can wait to be processed
+    printf("Listening on port %s\n",PORT);
+
+    socklen_t sock_size;
+    struct sockaddr_storage client_address;
+    sock_size = sizeof(client_address);
+
+    fd_set read_fds;
+
+    char buff[1025]="";
+
+    while(1){
+
+        FD_ZERO(&read_fds);
+        FD_SET(STDIN_FILENO, &read_fds);
+        FD_SET(listen_socket,&read_fds);
+        int i = select(listen_socket+1, &read_fds, NULL, NULL, NULL);
+
+        //if standard in, use fgets
+        if (FD_ISSET(STDIN_FILENO, &read_fds)) {
+            fgets(buff, sizeof(buff), stdin);
+            buff[strlen(buff)-1]=0;
+            printf("Recieved from terminal: '%s'\n",buff);
+        }
+
+        // if socket
+        if (FD_ISSET(listen_socket, &read_fds)) {
+            //accept the connection
+            int client_socket = accept(listen_socket,(struct sockaddr *)&client_address, &sock_size);
+            printf("Connected, waiting for data.\n");
+
+            //read the whole buff
+            read(client_socket,buff, sizeof(buff));
+            //trim the string
+            buff[strlen(buff)-1]=0; //clear newline
+            if(buff[strlen(buff)-1]==13){
+                //clear windows line ending
+                buff[strlen(buff)-1]=0;
+            }
+
+            printf("\nRecieved from client '%s'\n",buff);
+            close(client_socket);
+        }
+    }
+
+
+
+    free(hints);
+    freeaddrinfo(results);
+    return 0;
+}</code></pre>
+
+  <h3>Select with many clients.</h3>
+  <p>If you want to keep connections to multiple clients, you need to maintain a list of file descriptors for the connections.</p>
+  <p>When one of the clients disconnects, you need to remove the corresponding file desciptor from the list. </p>
+  <p>It is surprisingly easy to do this! When a client disconnects, the socket will show up as having data to read with select, but when you read from it, there will be 0 bytes read. At that point you should remove that fd from your list.</p>
+
+  <p><a href="#TOP">[back to top of page]</a></p>
+</div>
+
+
 <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
 <div class="contentBlock" id="2025-01-06n">
   <h5>2025-01-06</h5>
@@ -115,6 +312,7 @@ function closeNav() {
   <p>The <strong>only place you should commit changes directly to main</strong> would be the DEVLOG, and README files.</p>
   <p><a href="#TOP">[back to top of page]</a></p>
 </div>
+
 
 <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
 <div class="contentBlock" id="2025-01-03h">
@@ -276,6 +474,7 @@ function closeNav() {
   </div>
 
 
+  <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
   <div class="contentBlock" id="2024-12-21n">
 
   <p><img src="img/l33_3d.png" ></p>
@@ -374,6 +573,7 @@ function closeNav() {
 
 
 
+  <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
   <div class="contentBlock" id="2024-12-20n">
 
 
@@ -488,6 +688,7 @@ function closeNav() {
 
 
 
+  <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
   <div class="contentBlock" id="2024-12-19n">
     <h4>2024-12-19</h4>
     <h2>Networking.</h2>
@@ -600,6 +801,7 @@ function closeNav() {
 
 
 
+  <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
   <div class="contentBlock" id="2024-12-18n">
     <h5>2024-12-18</h5>
     <p>Motivation: Wouldn't it be nice if your server could accept clients from different computers? You could then distribute a client to your classmates and have them all use it.</p>
