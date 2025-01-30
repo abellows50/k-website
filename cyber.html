@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<script>
+function openNav() {
+  document.getElementById("leftColumn").style.display = "block";
+  document.getElementById("rightColumn").style.width = "80%";
+  document.getElementById("openSidebar").style.display= "none";
+}
+
+function closeNav() {
+  document.getElementById("leftColumn").style.display = "none";
+    document.getElementById("openSidebar").style.display= "block";
+	document.getElementById("rightColumn").style.width = "100%";
+}
+</script>
+
+<head>
+  <title>Cybersecurity</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="img/thluffy-left.png">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link rael="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Domine:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header id="TOP">
+    <div id="logo">
+      <a href="index.html"><img loading="lazy" src="img/thluffy-left.png" id="thluffy"></a>
+      <span id="className">Cybersecurity</span>
+    </div>
+  </header>
+<main>
+
+<div id="leftColumn">
+  <button class="closebtn" onclick="closeNav()" >💣</button>
+  <h3>Lecture Notes</h3>
+  <ul>
+    <li> <a href="#2025-01-28n">01-28 Logistics</a></li>
+  </ul>
+  <h3>Assignments</h3>
+  <ul>
+    <li> <a href="#2025-01-28h">01-28 HW01</a></li>
+  </ul>
+
+</div>
+
+<div id="rightColumn">
+<button class="openbtn" onclick="openNav()" id="openSidebar" style="display:none">☰</button>
+
+<!-- To Hide elements:
+<div style="display:none"> HIDDEN CONTENT </div>
+-->
+
+
+
+<!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
+<div class="contentBlock" id="2025-01-30n">
+  <h5>2025-01-30</h5>
+
+
+  <h2>Cyber Hygiene</h2>
+
+
+  <h3>Terminology</h3>
+  <ul>
+    <li>hacker, attacker, intruder : People who seek to exploit weakness in computer systems for their own gain.</li>
+    <li>vulnerability : Flaws in software, firmware, or hardware that can be exploited by anattacker to perform unauthorized operations on a system.</li>
+  </ul>
+
+  <h3>Hacking</h3>
+  <p>~1950 MIT students. or 2024 Chinese/Russian government employees?</p>
+  <p>
+    The original use of the term hacker dates back to 1950-1960s at MIT.
+    Students there enjoyed learning about and experimenting with technology.
+    A hack was something innovative/ingenious in the arena of computers and technology.
+    This positive connotation exists today in expressions like "life hacks"
+    "cooking hacks" etc.
+  </p>
+  <p>
+    This has evolved somewhat, and it is sometimes confusing because 'hacker' can
+    have a positive or negative connotation: a creative engineering person, versus a cyber attacker, or even both.
+  </p>
+  <h3>Hacker Classification</h3>
+  <p>Hackers can be classified into three different categories:</p>
+  <ol>
+    <li>White Hat - Ethical Hackers.
+      The "good guys" that use their skills to help protect against attacks / find and report vulnerabilities / design secure systems etc.
+      They have permission to try to hack into and detect vulnerabilities.
+      They act in an open and professional manner to differentiate themselves from malicious hackers.
+
+    </li>
+    <li>Black Hat - Malicious Hackers.
+      The "bad guys" that use their skills for malicious purposes.
+      They can steal money and information or damage systems.
+    </li>
+    <li>Grey Hat - They do not have permission to gain access to a company's system or products,
+      but find exploits with the intent of highlighting the problem. (often seeking a bounty/reward for doing so, not just going after posted bug bounties)
+      They do not have malicious intent but their actions may be illegal.
+    </li>
+  </ol>
+
+  <h2><p>What is at risk? How can you protect yourself?</p></h2>
+  <h3> What are possible losses due to a cyber attack?</h3>
+
+  <p>Let us consider the possible impacts of cyber attacks? Think what can happen if you don't protect digital data and infrastructure...</p>
+  <ul>
+    <li>Financial</li>
+    <li>Resource Unavailability / Misuse</li>
+    <li>Data Loss</li>
+    <li>Identity Theft</li>
+    <li>Loss of Trust/Reputation</li>
+  </ul>
+
+  <h3>Identity Theft</h3>
+  <p>A crime where an attacker uses information that identifies a person for personal gain. </p>
+
+  <p><strong>Data At Risk:</strong></p>
+  <ul>
+    <li>Name, Address, Phone number,</li>
+    <li>DOB, SSN</li>
+    <li>Credit Card / Bank info</li>
+    <li>Driver's License / Passport</li>
+  </ul>
+
+
+  <strong>Effects of Identity Theft:</strong>
+  <ul>
+    <li>Loss of money:   Bank / Credit card fraud</li>
+    <li>Actual Identity: Government ID or document theft/usage</li>
+  </ul>
+
+
+
+  <h3>What can an individual do to protect themselves?</h3>
+  <ul>
+    <li>Regularly Updating OS and applications</li>
+    <li>Strong Passwords</li>
+    <li>Antivirus*</li>
+    <li>Change default usernames and passwords</li>
+    <li>Use MFA (multi factor authentication)</li>
+    <li>Backup of important Files</li>
+    <li>Using encryption and Digital Signatures</li>
+    <li>Firewalls and intrusion detection systems</li>
+    <li>Be suspicious of all email. Expected or otherwise</li>
+    <li>Not revealing too much personal information on social networks</li>
+    <li>Awareness of present world security scenarios and new attacks</li>
+  </ul>
+  <h4>*Regarding antivirus</h4>
+  <p>Sometimes free antivirus isn't worth having. While Avast, AVG, and several other providers
+    offer a free tier of protection, they are often filled with advertizemnts for the upgraded
+    veresion of protection.</p>
+  <p>Microsoft's windows defender is a great free option, but you may want to supplement that with something for your web browsing, or for additional malware detection.</p>
+
+
+
+  <h2 id="2025-01-30h">Homework02:</h2>
+  <h3>1. Your data</h3>
+  <p>Back up all of your STUYCS lab data somewhere else. Your data is not protected and can be erased at any time. </p>
+  <p>If you have anything that is not in a github repository, you might want to make one to store your old work (intro etc).</p>
+  <p>Any GitHub repositories that you do not OWN (everything on GitHub classrooms), should be forked so you have a copy that you do in fact own, provided you wish to maintain it.</p>
+
+  <h3>2. What you should you be doing now: (if you want to be safe)</h3>
+  <p>The following are good practices that you should aim to do/start doing as soon as you can. There is no deadline and I won't check, but they will make you safer overall.</p>
+  <ul>
+  <li>Update all of your software</li>
+  <li>Turn on multi factor authentication for all of your accounts that support it.</li>
+  <li>Migrate to a password manager. (Bitwarden or similar, do NOT use LastPass)</li>
+  <li>Change all of your (important) passwords to a 16+ character long randomized string using your password manager prioritizing your most important accounts and working your way down the list.</li>
+  <li>Install / Update (regularly) a reputable antivirus*</li>
+  </ul>
+
+
+</div>
+
+<!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
+<div class="contentBlock" id="2025-01-28n">
+  <h5>2025-01-28</h5>
+
+  <h2>1. Expectations and Prior Knowledge</h2>
+
+  <h3>Language Familiarity</h3>
+  <p>All students are expected to be proficient in Java/Processing, and possibly other languages as well.</p>
+  <p>While you are not required to know multiple lanugages, it would allow you to pick the best tool for the job on a lab where you are allowed to use any language you choose.</p>
+  <p>It is very useful to know python in addition to a more strongly typed language.</p>
+
+  <h3>Termial Familiarity</h3>
+  <p>I expect you all have had experience working with a terminal, and working with github. If you avoided using the terminal in the past, you have now run out of time to practice and will required to use it going forward.</p>
+  <p>This is a good place to see some of the basic skills you will all need:   <a href="https://ubuntu.com/tutorials/command-line-for-beginners#1-overview">https://ubuntu.com/tutorials/command-line-for-beginners#1-overview</a> </p>
+  <p>I will go over commands and make them part of future assignments, but doing this now (when you are not swamped with other work) would make your later portions of the class go more smoothly.</p>
+  <p>You are expected to be able to use the lab machines (and hopefully your personal devices) to be able to view/edit files and more. In the lab I expect that all students would be able to create a file in a particular directory and paste/edit code fairly quickly. (e.g. Paste some code into <code>Documents/cyber/classwork/2025-01-28/Demo.java</code> ) </p>
+  <p></p>
+
+  <h3>Working environment</h3>
+  <p>
+    Part of this course will be making sure you are able to use a wide variety of tools.
+    Even though some tools will be replicated in a web based sandbox, there are
+    instances where you will need to demonstrate you can use those tools outside
+    of the sandbox (from your personal device).</p>
+  <p>Please ensure you have a working linux os on your personal device.</p>
+  <p>If you have a mac or linux computer, you already have one!</p>
+  <h3>Mac</h3>
+  <p>To work on a Mac computer you must install Xcode from the App Store. Run the following in a terminal in install xcode command line tools: <pre>xcode-select --install</code></pre> </p>
+  <h3>Windows</h3>
+  <p>Windows users can install WSL (a linux virtual machine) on your windows computers:</p>
+  <a href="https://docs.microsoft.com/en-us/windows/wsl/install">https://docs.microsoft.com/en-us/windows/wsl/install</a>
+
+  <h3>Danger! Don't be stupid.</h3>
+  <p>Anything you learn in this class can be used legally on your own computers, or with any computers you get permission to use. You must never "test out that cool thing" without permission.</p>
+  <p>Crimes involving computers tend to be felonies and the prosecution has a lot of incentive to convict "hackers" regardless of the reasons or the scope of the crime.</p>
+  <p>Please think before you act, and ask for permission before you act.</p>
+
+  <h2>What does this course cover?</h2>
+  <ul>
+    <li>cyber hygiene / keeping yourself safe</li>
+    <li>Linux/command line proficiency</li>
+    <ul>
+      <li>Basic commands</li>
+      <li>Specialized command line utilities</li>
+      <li>Regular expressions</li>
+      <li>Conversion of data</li>
+    </ul>
+    <li>pre-computer encryption</li>
+    <li>computer based encryption and its usage</li>
+    <ul>
+      <li>symmetric vs asymmetric keys</li>
+      <li>public/private key pairs and usage</li>
+      <li>https usage of encryption</li>
+    </ul>
+    <li>Ethical Hacking</li>
+    <ul>
+      <li>Reconnaisance using various scanning tools</li>
+      <li>Various Exploitats and attack vectors</li>
+    </ul>
+    <li>Stegonography</li>
+
+    <ul>
+      <li>What is it?</li>
+      <li>Image stegonography implementation and exploration using Processing (the tool).</li>
+
+    </ul>
+
+  </ul>
+
+
+  <h2>2. What is Cybersecurity?</h2>
+  <p><strong>Cybersecurity are techniques and practices that are designed to protect digital data and infrastructure. </strong></p>
+  <p>There are related security fields</p>
+  <p>e.g. information security or even just... security.</p>
+  <p>Physically securing your infrastructure is needed to protect digital things but that is beyond the scope of cybersecurity.</p>
+
+  <h3>Why care about learning Cybersecurity?</h3>
+  <p>Before going into the "what" question, let us touch upon the in-demand nature of the field.</p>
+  <p>If you enjoy things in this class there are more jobs than qualified people to take them. They are well paying jobs.</p>
+
+  <p><strong>Basically:</strong> They are paying you to play with computers!<sup>*</sup></p>
+  <p>
+    <strong>*</strong>if playing with computers means being passionate about learning about a highly technical
+    field and wanting to use this knowledge to do good!
+  </p>
+
+  <h3>What does Cybersecurity include?</h3>
+  <p>There are many categories within cybersecurity:</p>
+  <ul>
+    <li><strong>Application security   </strong> - programs including operating system</li>
+    <li><strong>Network and infrastructure security</strong> - including web/cloud systems</li>
+    <li><strong>Intrusion detection</strong></li>
+    <li><strong>penetration testing</strong></li>
+    <li><strong>Digital forensics and incident response</strong> - After the fact, figure out what happened, limit damage, and prevent future incidents</li>
+    <li><strong>Endpoint protection and mobile security</strong> - protecting end-user devices such as desktops, laptops, and mobile devices</li>
+    <li><strong>Data governance, risk and compliance</strong> - practices to comply with government or industry rules/regulations.</li>
+  </ul>
+
+  <p>These are very broad categories, <strong>penetration testing </strong> for example can be broken down further:</p>
+  <ul>
+    <li><strong>Physical Pen Testing</strong> - Measure the effectiveness of security procedures, training, and controls by attempting physical access to an organization.</li>
+    <li><strong>External Pen Testing</strong> - Find vulnerabilities that can be exploited by external attackers to access infrastructure or data.</li>
+    <li><strong>Internal Pen Testing</strong> - Determining the possible impact of an attacker getting different kinds of credientials, and the level of access required to overcome the security.</li>
+    <li><strong>Web App Pen Testing</strong> -  Find technical flaws or vulnerabilities in the web aplications run by an organization</li>
+    <li><strong>PCI Pen Testing</strong> - (Payment Card Industry) Validating security of credit card information.  </li>
+    <li><strong>Red Teaming</strong> - Simulation of a real attack using the same tactics that attacker's would employ. This is a more holistic test.</li>
+  </ul>
+  <p>This is not mentioning the myriad of tools and techniques required. Some of which such as Cryptography are huge topics that you can study for years.</p>
+
+
+
+  <h2 id="2025-01-28h">HW01</h2>
+  <h3>1. Information</h3>
+  <p>If you were added to the class after 1/28, you MUST both: fill this out and also tell me that you did.</p>
+  <p>Information gathering form for the semester: <a href="https://forms.gle/pFdxtawdkcVyTSVa7">https://forms.gle/pFdxtawdkcVyTSVa7</a> </p>
+  <h3>2. Familiarize yourself / Verify Your knowledge</h3>
+  <p>Make sure you understand Sections: 3,4,5,6 and 8. <a href="https://ubuntu.com/tutorials/command-line-for-beginners#1-overview">https://ubuntu.com/tutorials/command-line-for-beginners#1-overview</a></p>
+
+
+  <a href="#TOP">go back to the top of the page</a>
+</div>
+
+</main>
+</body>
+</html>
