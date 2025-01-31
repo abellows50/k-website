@@ -42,14 +42,17 @@ function closeNav() {
   <button class="closebtn" onclick="closeNav()" >💣</button>
   <h3>Lecture Notes</h3>
   <ul>
-    <li> <a href="#2025-01-28n">01-28 Logistics</a></li>
+    <li> <a href="#2025-01-28n">01-28 Logistics & Course Overview</a></li>
+    <li> <a href="#2025-01-30n">01-30 Cyber hygiene</a></li>
+    <li> <a href="#2025-01-31n">01-31 Terminal Fu</a></li>
   </ul>
   <h3>Assignments</h3>
   <ul>
+    <li> <a href="#2025-01-31h">01-31 HW03</a></li>
     <li> <a href="#2025-01-28h">01-28 HW01</a></li>
   </ul>
 
-</div>
+  </div>
 
 <div id="rightColumn">
 <button class="openbtn" onclick="openNav()" id="openSidebar" style="display:none">☰</button>
@@ -58,8 +61,176 @@ function closeNav() {
 <div style="display:none"> HIDDEN CONTENT </div>
 -->
 
+<!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
+<div class="contentBlock" id="2025-01-31n">
+  <h2>Terminal-Fu</h2>
+  <p><img src="img/terminalfu.jpg" alt=""> </p>
+  <h3>the -fu suffix:</h3>
+  <p>From: <a href="https://en.wiktionary.org/wiki/-fu">https://en.wiktionary.org/wiki/-fu</a> </p>
+  <p>-fu : (slang) Used to form nouns indicating expertise or mastery of specified skill or area of knowledge.</p>
+  <ul>
+    ‎<li>Google + ‎-fu → ‎Google-fu
+    ‎<li>script + ‎-fu → ‎script-fu
+    <li>My Google-fu is weak!
+    <li>Aragorn uses Ranger-fu to figure out that Sam and Frodo have taken a boat.
+  </ul>
+  <h4>Etymology</h4>
+  <p>From kung-fu.</p>
 
 
+  <h3>Some extra Resources</h3>
+  <p><a href="https://ubuntu.com/tutorials/command-line-for-beginners#1-overview">https://ubuntu.com/tutorials/command-line-for-beginners#1-overview</a></p>
+  <p>What is a terminal emulator based on? <a href="https://en.wikipedia.org/wiki/VT100">VT100 Terminal</a> </p>
+  <p>Terminal Emulators: <a href="https://en.wikipedia.org/wiki/List_of_terminal_emulators">https://en.wikipedia.org/wiki/List_of_terminal_emulators</a> </p>
+
+
+  <h3>Terminal vs Shell</h3>
+  <p>Terminal and shell are often used interchangeably much like arguments vs parameters.</p>
+  <p>The terminal (Actually a terminal emulator) is the window that connects to another machine. This is based on a physical device called a terminal.</p>
+  <p>The shell is the program running on the machine that is parsing your commands.</p>
+
+
+  <h3>Common Problems</h3>
+  <p>Often typing commands that you know, will cause results you do not expect.</p>
+  <p>Echo is a simple command that prints to the terminal whatever text you give it.</p>
+  <pre class="codeblock"><code>
+  $ echo hello, goodbye
+  hello, goodbye
+  $ echo "hello, goodbye"
+  hello, goodbye
+  $</code></pre>
+  <p>But if you mistype it:</p>
+  <pre class="codeblock"><code>
+  $ echo "hello, goodbye
+  ></code></pre>
+  <p>Oh No! You are stuck! </p>
+  <p>There are several ways to fix this. One is to close your quotations, the other is to press Ctrl-C and ending the command.</p>
+  <h3>Your 2nd best friend: ctrl-c</h3>
+  Here are some examples of commands that will make your terminal get stuck in some way:
+  <ul>
+    <li>$ echo "hello</li>
+    <li>$ grep foobar</li>
+    <li>$ yes</li>
+    <li>$ tail</li>
+    <li>$ cat</li>
+  </ul>
+  <p>In every case, the solution is the same: hit Ctrl-C (pronounced "control-see"). Ctrl-C is sometimes written as ⌃C</p>
+
+  <h3>Your best friend: Tab (the key above capslock)</h3>
+  <p>When typing commands into the shell, many shells will allow for some form of autocompletion. The tab key triggers the auto complete functionality.</p>
+
+  <h3>Other tools that you should know:</h3>
+  <ul>
+    <li>cd</li>
+    <li>cp and mv</li>
+    <li>scp</li>
+    <li>cat</li>
+    <li>nano / micro</li>
+    <li>ssh</li>
+    <li>If you like to suffer:  vim , emacs</li>
+  </ul>
+
+
+
+
+  <h3>SSH</h3>
+  <p>ssh is a secure shell program that lets you connect your terminal to a shell on a remote computer.
+     This is used to run commands on that remote computer as if you were logged into it (because you log into it remotely).
+   </p>
+
+  <pre>
+    <code>ssh username@hostAddress</code>
+  </pre>
+  <p>The machines in this lab are all open to be ssh'ed using your STUYCS accounts.</p>
+  <p>Marge is <pre>149.89.161.100</pre> please do NOT use marge for general work.</p>
+  <p>All other machines are: <pre>149.89.161.1xx</pre> where xx is 01,02,03,... 31,32</p>
+  <p>The command <pre>ssh username@149.89.161.100</pre> would try to connect to marge, and ask your for your password for the cs lab.</p>
+  <p>From marge, you can <pre>ssh username@149.89.161.115</pre> to connect to <code>cslab4-15</code> </p>
+
+
+  <h3>Classwork Repo</h3>
+  <p>Please clone and use this repo to store your day to day files and a few homework assignments: <a href="https://classroom.github.com/a/B6E-H1jV">https://classroom.github.com/a/B6E-H1jV</a> </p>
+
+
+    <h3>Scavenger hunt!</h3>
+
+    <p><strong>YOU MUST NOT CLONE THIS IN YOUR HOME DIRECTORY!!!!</strong></p>
+
+    <p>You will use your last 4 digits of your osis as your <strong>random seed</strong> so you do not forget it.</p>
+    <p>
+      You can continue your scavenger hunt on another machine because you can recreate the scavenger hunt with
+      the same <strong>random seed</strong> as last time. You can SSH back into the lab computers, and recreate the hunt if it got deleted.
+    </p>
+
+
+    <p>You will be logging your scavenger hunt so please read the how to submit section!</p>
+    <p>To get started:</p>
+    <ol>
+    <li>
+    <pre><code>mkdir /tmp/`whoami`;cd /tmp/`whoami`;git clone https://github.com/pushingice/scavenger-hunt.git</code></pre>
+    </li>
+    <li>
+    <p>Now you must read the README carefully and follow directions.</p>
+    <p>Use the last4 digits of your osis as your secret number. (random seed)</p>
+    </li>
+    <li>
+    <p>If you get lost please use: <pre><code>cd /tmp/`whoami`/scavenger-hunt</code></pre></p>
+
+    </li>
+    <li>
+    <p>Try the hunt as it is intended, and when you finish it will show you a cool method you could have hacked the hunt from the start! </p>
+    <p><strong>Do not look into the python files, or use your python-fu to get your clues</strong> as that completely circumvents the purpose of this activity.</p>
+    </li>
+    <li>
+    <p>If "which python" doesn't work as intended, try using "" as the result instead of "no python found" or similar.</p>
+    </li>
+    </ol>
+
+    <p>Remember you can have more than one terminal open, for example one to display your information, and another to test commands.</p>
+    <p>Note that the whoami command prints your username to stdout. The backticks insert the results of that into the terminal command.</p>
+
+
+    <h3>How to submit:</h3>
+
+    <p>Make a file: <code>01-scavenger.txt</code> in the root of your classwork repo. </p>
+    <p>This should be a plain text document no other file types!</p>
+    <p>The file should contain: your name, seed, and all 12 of y our clues in the format:</p>
+
+    <pre class="codeblock"><code>Period,Last,First
+seed
+problem#,LOCATION, explanation how did you get this location
+problem#,LOCATION, explanation how did you get this location
+...
+explanation at the end</code></pre>
+    <p>Your hint is exactly what you give to the nextclue command.</p>
+    <p>Problem 12 requires an explanation of how you found it.</p>
+    <p>After 12, please write an explanation of how easy/hard the hunt was for you, and if you used any alternative ways to find the solution(s)</p>
+    <p>e.g.</p>
+    <pre class="codeblock"><code>09,Smith,Kenji
+0210  #the seed (secret number needed for your quest.)
+1,README, Mr.K told me to go here...
+2,50240, the command foo gave me the hint fish
+3,12394, using ls and combining the results got the hint 123
+4,54133, i used the sudo command to pwn all
+...(more lines)
+12,20042,????
+It was hard until I decided to used magic! The magic of the terminal! (not a good response)</code></pre>
+    <p>Try your best, and don't worry if you get stuck! Posting on piazza will help you un-stuck yourself.</p>
+    <p>There are ways around any commands that don't work due to permissions.</p>
+
+
+
+  <h2 id="2025-01-31h">Homework03:</h2>
+  <h3>0. Join Piazza</h3>
+  <p>You will be invited if you fill out the form from your 1st homework. If you didn't do that you can fix it...</p>
+  <h3>1. Complete scavenger hunt (Due next class)</h3>
+  <h3>2. Perusall (Due Tuesday to allow people to respond to others)</h3>
+  <p>Join using this code: <a href="https://app.perusall.com/join/konstantinovich-hyxuy">https://app.perusall.com/join/konstantinovich-hyxuy</a> </p>
+  <p>Please set your name properly if it is not set.</p>
+  <p>Complete the academic dishonesty assignment
+    You m ust annotate at least 2 times. (Your highest two meaningful comments/questions will be counted.)</p>
+
+  </div>
 <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
 <div class="contentBlock" id="2025-01-30n">
   <h5>2025-01-30</h5>
@@ -160,7 +331,7 @@ function closeNav() {
 
 
 
-  <h2 id="2025-01-30h">Homework02:</h2>
+    <h2 id="2025-01-30h">Homework02:</h2>
   <h3>1. Your data</h3>
   <p>Back up all of your STUYCS lab data somewhere else. Your data is not protected and can be erased at any time. </p>
   <p>If you have anything that is not in a github repository, you might want to make one to store your old work (intro etc).</p>
@@ -292,7 +463,7 @@ function closeNav() {
 
   <h2 id="2025-01-28h">HW01</h2>
   <h3>1. Information</h3>
-  <p>If you were added to the class after 1/28, you MUST both: fill this out and also tell me that you did.</p>
+  <p>If you were added to the class after 1/31, you MUST both: fill this out and also tell me that you did.</p>
   <p>Information gathering form for the semester: <a href="https://forms.gle/pFdxtawdkcVyTSVa7">https://forms.gle/pFdxtawdkcVyTSVa7</a> </p>
   <h3>2. Familiarize yourself / Verify Your knowledge</h3>
   <p>Make sure you understand Sections: 3,4,5,6 and 8. <a href="https://ubuntu.com/tutorials/command-line-for-beginners#1-overview">https://ubuntu.com/tutorials/command-line-for-beginners#1-overview</a></p>
