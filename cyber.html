@@ -61,7 +61,210 @@ function closeNav() {
 <div style="display:none"> HIDDEN CONTENT </div>
 -->
 
+
 <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
+<div class="contentBlock" id="2025-02-03n">
+  <h5> 2025/02/03 </h5>
+
+  <h2>It was GROUNDHOG DAY!</h2>
+  <img width="400px" src="img/groundhogDay.jpg" alt="Bill Murray with a groundhog driving a truck.">
+
+  <h3>Policies / Late work / etc</h3>
+  <p>Class policies are on the landing page (click on the snake)</p>
+
+  <hr>
+
+  <h2>Software you need to know about</h2>
+  <p>
+    You will have to learn how to install a variety of tools. Installations are specific to your OS,
+    but you can just follow the directions in most cases.
+  </p>
+
+  <h3>Windows Users:</h3>
+  <p>
+    windows 10 or 11 let you run linux in a window:
+    <a href="https://docs.microsoft.com/en-us/windows/wsl/install">WSL</a>
+    (Windows subsystem for linux is actually a linux subsystem for windows...)
+  </p>
+  <p>
+    If you don't want to use linux or you also want to install tools to use with powershell,
+    then look into <a href="https://chocolatey.org/">chocolatey</a>
+  </p>
+
+  <h3>For linux: sudo</h3>
+  <p>
+    sudo is a program already installed on unix and linux operating systems that enables users to run programs
+    with the security privileges of another user, by default the superuser.
+  </p>
+  <p>
+    You do NOT have sudo permission on the school system,
+    but you do on your personal devices, and on your WSL installation.
+  </p>
+  <p>Windows does not have an equivalent command.</p>
+
+
+  <h3>Installing software / Updating</h3>
+  <p>On your linux distributions, you often can install software with a single command in the terminal!</p>
+
+  <p>Prior to installing anything you should update:</p>
+  <h4>update your linux first:</h4>
+  <pre><code>sudo apt update
+sudo apt upgrade</code> </pre>
+
+  <h4>Then install software you need: (cowsay is an example)</h4>
+  <pre><code>sudo apt install cowsay</code> </pre>
+
+
+  <h3>grep</h3>
+  <p>Regarding grep: g/re/p <strong>G</strong>lobally search for a <strong>R</strong>egular <strong>E</strong>xpression and <strong>P</strong>rint matching lines</p>
+  <p>grep is a great filtering tool to help reduce large outputs to just the parts you care about.</p>
+
+  <h3>Python</h3>
+  <p> Both <strong>Python 2 and 3</strong> are very useful. Some programs only exist in one version or the other, so it is always helpful to be able to use either.</p>
+  <p>Even if you do not plan on coding in python it is useful to be able to run commands in both python 2 and 3. When you install both, you must be careful which you are actually running.</p>
+  <p>Do not use the command <code>python</code> in your scripts/makefiles. When writing scripts you should <strong>explicitly call <code>python2</code> or <code>python3</code> </strong> rather than assume that <code>python</code> will call the correct version!</p>
+
+
+  <h3>Shell configuration</h3>
+  <p>You do not have to keep your shell in the default configuration.</p>
+  <p>Bash has a <code>.bashrc</code> file, zsh has a <code>.zshrc</code> file. In these files (and a few others like <code>.bash_profile</code> ) you can add customizations such as aliasing commands to other commands with particular arguments.</p>
+  <ul>
+    <li> <code>alias python="python3"</code> would default the python command to always be python3, this would not impact your ability to use python2 or python3 commands. It would affect how your scripts are run on your computer, but NOT how it would run on soemone else's computer! </li>
+    <li> <code>alias rm='rm -i'</code> would make every rm command ask for confirmation before deleting.</li>
+    <li> I have a colorized cat program in <code>~/bin/</code> and I aliased cat to it as follows: <code>alias cat='~/bin/ccat -G String="green" -G Plaintext="bold" -G Keyword="blue" -G Punctuation="red"'</code> </li>
+  </ul>
+
+
+  <h3>VPN</h3>
+  <p>We will be using openVPN for accessing some cybersecurity resources.</p>
+
+  <h2>Make</h2>
+  <p>Make is a program to easily run other programs!</p>
+  <p> <strong>make</strong> is a command that we will be using for labs. If you use windows your gitbash doesn't have this tool.</p>
+  <p>On windows you have to download <a href="http://gnuwin32.sourceforge.net/packages/make.htm">Make for windows</a>  </p>
+  <p>On wsl or linux you can just run: <code>sudo apt install build-essential</code></p>
+
+  <h3>Makefiles</h3>
+  <p>Make is configured to do whatever you need it to do using a file you create that is named "makefile".</p>
+  <p>This allows developers to distribute software to other developers without having to wory about complex compilation/configuration steps.</p>
+
+  <h3>Makefile syntax</h3>
+  <p>To use make, you will need to be very careful with tabs vs spaces.</p>
+  <p>Because java automatically compiles required files, and python doesn't require compilation, the dependancies do not seem important. They are in many languages, they are not used here to keep things simple.</p>
+
+  <p>syntax of a typical rule: (note tabs won't display as tabs in a website, so aways use 1 tab to indicate a recipe)</p>
+
+
+  <code>
+  <p>.PHONY: run clean</p>
+  <p>target: prerequisites</p>
+  <p>&lt;TAB&gt;recipe</p>
+  <p>target2: prerequisites</p>
+  <p>&lt;TAB&gt;recipe2</p>
+  </code>
+  <p>That is the tab character (tab key), not the symbols written.</p>
+  <p>target are often FILES that the recipe will make.</p>
+  <p>Prerequesites are any FILES that are required to run the recipe.</p>
+  <p>The .PHONY commands are examples of targets that are NOT files. You should avoid making files that overlap the run commands, e.g. do not make a program called "run" if you want to use "make run" to execute that program.</p>
+
+  <h3>Examples of makefiles:</h3>
+  <p> <strong>URGENT NOTE:</strong> these examples are not copy/paste-able because websites don't display tab characters.
+   You must ensure text is left justified or tabbed over once!</p>
+
+  <code><pre>run:
+ python2 file.py</pre></code>
+
+  <p>A simple recipe to run a command: (you cannot copy paste this as web browsers do not use "tab" and makefiles REQUIRE tab indentation)</p>
+  <code><pre>say_hello:
+    echo "Hello World"</pre></code>
+
+
+  <p>Now run the file by typing make inside the directory that contains the makefile. The output will be:</p>
+  <code><pre>$ make
+echo "Hello World"
+Hello World
+$ </pre></code>
+
+  <p>You can put comments at the top of your makefile. You can also make multiple targets. The first target is the "default" which is run when no arguments are provided to the make program.</p>
+  <code><pre># Usage:
+# make        : compile all java files
+# make runs   : run the program
+# make clean  : remove all class files
+.PHONY: run clean default
+default:
+    javac *.java
+run:
+    java Driver
+clean:
+    rm *.class</pre></code>
+
+
+  <p>You can pass arguments into your programs using makefile too! </p>
+  <code><pre># Usage:
+# make run ARGS=filename
+# also note the @ before echo, this will not echo the command on the terminal
+# you can test it both ways to see the difference.
+.PHONY: run default
+default:
+    @echo "example: make run ARGS=textfile.txt"
+run:
+    python File.py $(ARGS)</pre></code>
+  <p>Final note on makefiles, after you test them and they work, you should add @ before each command so you do not see the command itself, only the output.</p>
+  <code><pre># Usage:
+# make        : compile all java files
+# make runs   : run the program
+# make clean  : remove all class files
+.PHONY: run clean
+run: Driver.class
+    @java Driver
+Driver.class: Driver.java
+    @javac Driver.java
+clean:
+    @rm *.class</pre></code>
+  <h4>Dependencies</h4>
+  <p>The above includes an example of dependency usage.</p>
+
+  <h3>More notes on makefiles</h3>
+  <p>You can find more information on makefiles here: <a href="http://konstantinnovation.github.io/systems.html#2024-09-16n">http://konstantinnovation.github.io/systems.html#2024-09-16n</a> </p>
+
+  <hr>
+  <h2>Lab00</h2>
+  <p>This is a test lab to ensure you can use the tools required for future labs.</p>
+  <p>You must always test your labs on the StuyCS Lab computers, to avoid any compatibility issues.</p>
+  <p><a href="https://classroom.github.com/a/in8yfTB0">https://classroom.github.com/a/in8yfTB0</a> </p>
+  <h4>The goal is to use and test a makefile</h4>
+  <ol>
+  <li>
+	  <p>Write a program in either python/java/c that does the following:</p>
+	  <p>when the arguments are -u and a string: Uppercase a string</p>
+	  <p>when the arguments are -l and a string: Lowercase a string</p>
+
+  </li>
+  <li>
+	  <p>Create a makefile to use with your program. If you have difficulty read directions, and ask on piazza</p>
+	  <p>create a makefile with the following targets:</p>
+	  <p>default     : compile if needed</p>
+	  <p>make clean  : remove any compiled files</p>
+	  <p>make run $ARGS="args go here"   : compile ONLY if needed, then run the program with the arguments provided in the ARGS string.</p>
+  </li>
+  </ul>
+  <h4>Example:</h4>
+  <p>The first make will compile. The other make run commands will run your program.</p>
+  <code><pre>$make
+$make run ARGS="-u asdf"
+ASDF
+$make run ARGS="-l aSdF1"
+asdf1
+$</pre></code>
+  <p>Notice no output when typing make.</p>
+  </ol>
+
+  <a href="#TOP">go back to the top of the page</a>
+</div>
+
+
+
+  <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
 <div class="contentBlock" id="2025-01-31n">
   <h2>Terminal-Fu</h2>
   <p><img src="img/terminalfu.jpg" alt=""> </p>
@@ -230,7 +433,10 @@ It was hard until I decided to used magic! The magic of the terminal! (not a goo
   <p>Complete the academic dishonesty assignment
     You m ust annotate at least 2 times. (Your highest two meaningful comments/questions will be counted.)</p>
 
-  </div>
+  <a href="#TOP">go back to the top of the page</a>
+</div>
+
+
 <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
 <div class="contentBlock" id="2025-01-30n">
   <h5>2025-01-30</h5>
@@ -347,8 +553,9 @@ It was hard until I decided to used magic! The magic of the terminal! (not a goo
   <li>Install / Update (regularly) a reputable antivirus*</li>
   </ul>
 
-
+  <a href="#TOP">go back to the top of the page</a>
 </div>
+
 
 <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
 <div class="contentBlock" id="2025-01-28n">
