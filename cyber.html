@@ -62,6 +62,97 @@ function closeNav() {
 -->
 
 
+
+<!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
+<div class="contentBlock" id="2025-02-04n">
+  <h5> 2025/02/04 </h5>
+  <h3>Scavenger Hunt all clues<h3>
+  <p>I used grep as follows:</p>
+  <code>grep -r "### Clue"</code>
+  <p>However the output was ugly so:</p>
+  <code>grep -r "### Clue" | sort -k 3n</code>
+  <p>This uses the 3rd item in each row as sorting key, and treats it like a number.</p>
+  <p>Since I still thought this was ugly...</p>
+  <code> grep -r "### Clue" | sort -k 3n | sed -E 's/(.*)\/.* Clue (.*): .*/Clue:\2 Folder:\1/' </code>
+  <p>I didn't teach you sed, but the (.*) are capturing the characters before the first slash, and the characters between "Clue " and the
+  ":" then outputs them in a nice format</p>
+  <p>Regular expressions are very useful in pattern matching and manipulating</p>
+
+  <h3>prerequisite terminal skills:</h3>
+  <ul>
+   <li>Opening a terminal</li>
+   <li>Creating folders and files in the location you want</li>
+   <li>Copying/Moving/Editing files</li>
+   <li>Using SSH to run commands on another computer</li>
+  </ul>
+
+  <h3>TTY sessions</h3>
+  <p>TTY used to refer to a physical TeleTYpewriter which was a machine that connected remotely but now is just refers to one of the terminals connected to the machine.</p>
+  <p>You can access tty4 (ctrl-alt-f4) and tty5 (ctrl-alt-f5) before you log in, and then you will have to log in to that tty session.</p>
+  <p>Make sure you <code>exit</code> your tty session before you leave the computer, as it does not lock the screen or log you out!</p>
+  <p>Nothing screams "script kiddie"* like someone using a TTY session to show off then forgetting to log out and getting their information stolen</p>
+  <p>*Look up script kiddie</p>
+  <p>
+  Using a tty session is sometimes good practice to see how well you fare without the GUI. You OFTEN need to interact with
+     remote computers via ssh, giving you only terminal access, so this is in fact a useful skill, not a bragging point.
+  <p>
+
+  <h3>cheat.sh</h3>
+  <p>How to get help in a terminal assuming you have web access?</p>
+  <p>http://cheat.sh is a website that has examples of how to use linux commands in different ways. This is often more useful than man pages when you don't know how a command is used.</p>
+  <p>Accessing cheat.sh from a browser when you are in a terminal may not be ideal, so there is a quick way to get the info on your current terminal:</p>
+  <p><code>curl cheat.sh/COMMAND_TO_LOOK_UP</code> </p>
+  <p>Note: curl stands for Client URL</p>
+
+  <h3>Plumbing</h3>
+  <p>The linux system has a large variety of commands that do small things. By combining these tools you can accomplish a very large variety of results.</p>
+  <p><strong>ls</strong> lists files and directories but has many flags to make it more useful.</p>
+  <p><strong>wc</strong> counts the number of lines, words and characters in a block of text. </p>
+  <p><strong>sort</strong> will sort a block of text alphabetically</p>
+  <p><strong>uniq</strong> can replace duplicate entries with a single entery, and optionally count the number of repeats </p>
+  <p><strong>sed</strong> stream edit, lets you modify a stream like standard out in real time as it is printed.</p>
+  <p>Remember you can <code>curl cheat.sh/COMMAND</code> if you need some examples/hints/help</p>
+
+  <h3>Demo From Class:</h3>
+  <p>You can give a command parameters:</p>
+  <pre>cowsay Moooo!</pre>
+  <p>Or you can pipe | commands into another command:</p>
+  <pre>fortune | cowsay</pre>
+  <p>You can pipe the output of several program into eachother:</p>
+  <pre>fortune | cowsay | lolcat</pre>
+  <p>You can also use loops on the shell:</p>
+  <pre>while true; do date '+%D %T' |
+    toilet -f term -F border |
+    lolcat; sleep 1; done</pre>
+
+  <h2>Homework</h2>
+
+    <h3>Regular Expressions (regex):</h3>
+    <p>1. Spend 20 minutes to familiarize yourself with either regex tutorial so you get an idea of how this works before tomorrow.</p>
+    <a href="https://regexlearn.com/learn/regex101">https://regexlearn.com/learn/regex101</a>
+    <p>or here: </p>
+    <a href="https://regexone.com/">https://regexone.com/</a>
+    <p>2. Try to apply regex using this testing site: <a href="https://regex101.com/">https://regex101.com/</a> </p>
+    <p>Your goal is to try to see in realtime how the regex expression matches text</p>
+    <p>You should use ^ and $ operators for line boundaries as well.</p>
+    <p>Here is some sample text to work with, try to match ONLY the usernames, try to match ONLY the IP addresses:</p>
+    <p>You will want to use capture groups for this, so you can match parts of the whole line e.g. "(.*) sshd.*" would capture "Feb 06 10:15:28 marge" from each line in the group designated by the parenthesis.</p>
+    <pre><code>Feb 06 10:15:28 marge sshd[1983193]: Failed password for root from 218.92.0.76 port 24168 ssh2
+Feb 06 10:15:30 marge sshd[1983195]: Failed password for root from 61.177.172.160 port 18985 ssh2
+Feb 06 10:15:39 marge sshd[1983202]: Failed password for invalid user min from 43.153.223.232 port 41606 ssh2
+Feb 06 10:15:42 marge sshd[1983200]: Failed password for root from 61.177.172.160 port 37258 ssh2
+Feb 06 10:15:49 marge sshd[1983207]: Failed password for invalid user bodega from 34.66.142.113 port 43408 ssh2
+Feb 06 10:16:02 marge sshd[1983216]: Failed password for root from 180.101.88.241 port 49238 ssh2
+Feb 06 10:16:02 marge sshd[1983218]: Failed password for invalid user btest from 43.163.226.99 port 50308 ssh2</code></pre>
+
+    <p>
+      Note: I absolutely need to use <a href="https://regex101.com/">https://regex101.com/</a>
+      to help me tweak my expressions, it is like having a compiler for a language.
+    </p>
+
+  <p><a href="#TOP">go back to the top of the page</a></p>
+</div>
+
 <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
 <div class="contentBlock" id="2025-02-03n">
   <h5> 2025/02/03 </h5>
