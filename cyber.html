@@ -21,7 +21,7 @@ function closeNav() {
   <link rel="icon" href="img/thluffy-left.png">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-  <link rael="preconnect" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Domine:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/styles/default.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/highlight.min.js"></script>
@@ -48,6 +48,7 @@ function closeNav() {
   </ul>
   <h3>Assignments</h3>
   <ul>
+    <li> <a href="#2025-02-05h">02-05 HW04</a></li>
     <li> <a href="#2025-01-31h">01-31 HW03</a></li>
     <li> <a href="#2025-01-28h">01-28 HW01</a></li>
   </ul>
@@ -61,6 +62,194 @@ function closeNav() {
 <div style="display:none"> HIDDEN CONTENT </div>
 -->
 
+<!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
+<div class="contentBlock" id="2025-02-05n">
+  <h5>2025-02-05</h5>
+
+  <h3>Regular expressions</h3>
+  <p><a href="https://xkcd.com/208/">https://xkcd.com/208/</a></p>
+  <p><img loading="lazy" src="https://imgs.xkcd.com/comics/regular_expressions.png" alt="https://imgs.xkcd.com/comics/regular_expressions.png"></p>
+
+
+  <p>There are regex quick references all over the internet, but just a few things here:</p>
+  <ul>
+  <li>^ : the start of the line</li>
+  <li>$ : the end of the line</li>
+  <li>. : any single character except newline</li>
+  <li>* : zero or more of the preceding match</li>
+  <li>+ : one or more of the preceding match</li>
+  <li>? : zero or one of the preceding match</li>
+  <li>(a|b) : either something that matches a or b</li>
+  <li>[abc] : any one character of a, b, and c</li>
+  <li>^ : can also be used inside of [] to negate the result</li>
+  <li>\b : a word boundary</li>
+  <li>\s is a shorthand for [ \t\r\n\f] which is whitespace characters (tab newline space etc.)</li>
+  <li>\S equivals to [^ \t\r\n\f] which is non-whitespace</li>
+  <li>x{n} : Where "n" is a positive integer, matches exactly "n" occurrences of the preceding item "x". </li>
+  <li>x{n,m} :	Where "n" is 0 or a positive integer, "m" is a positive integer, and m > n, matches at least "n" and at most "m" occurrences of the preceding item "x". </li>
+  </ul>
+  <p>You can use these (and more options) to find or validate strings.</p>
+  <p>Create a regex that will match some of the following words but not the rest using what you know of regex:</p>
+  <ol>
+  <p>Two or more consecutive z's in the middle of non-z's.</p>
+	<pre> match:
+  wazzzzzzzup
+  wazzup
+  skip:
+  wazup
+  waup
+  aszbczasdf
+  zabczz
+  zzzzzz
+  zzzaaaazzz
+  </pre]>
+
+  <p>even number of consecutive z's but not 0, in the middle of non-z's.</p>
+  <pre>match:
+wazzzzzzup
+wazzzzup
+wazzup
+skip:
+wazup
+wazuzp
+wazzzup
+fazzzup
+fazzzuli
+zzfaulizzzz
+</pre>
+<p>Use capture groups, not a 3 way or statement.</p>
+ <pre>match:
+timtim-tim
+kimkim-kim
+jimjim-jim
+skip: all other patterned words
+timtan-tim
+kimtim-tim
+rintin-tin
+jimjim-kim
+etc.
+</pre>
+
+<h3>Regex realtime preview is helpful</h3>
+<p>I often use <a href="https://regex101.com/">https://regex101.com/</a> to validate my regular expressions.</p>
+<p>*I absolutely needed to use it when I haven't touched regex in a while, or when my expression is complicated.</p>
+
+<p>Also remember you have other sites to give you some regex help:</p>
+<a href="https://regexlearn.com/learn/regex101">https://regexlearn.com/learn/regex101</a>
+<p>or here: </p>
+<a href="https://regexone.com/">https://regexone.com/</a>
+
+<p>What kinds of strings does the following expressions match? </p>
+<div class="code">
+  A: \bR[a-z]{4,10}e\b</br>
+  B: \bR[a-zA-Z]{4,10}[e|E]\b
+</div>
+<p>Here are some test strings, decide if each string matches regex A , B or both</p>
+<ol>
+  <li>Reeeee</li>
+  <li>REEEEE</li>
+  <li>ReEEeE</li>
+  <li>ReEeEe</li>
+  <li>Rffffffffe</li>
+  <li>Rfefefefee</li>
+  <li>Re</li>
+  <li>REE</li>
+  <li>REeE</li>
+  <li>ReEee</li>
+  <li>Rfffe</li>
+  <li>Rffee</li>
+  <li>Reeeeed</li>
+  <li>REEEEEf</li>
+  <li>ReEEeEc</li>
+  <li>ReEeEet</li>
+  <li>Rffffffffet</li>
+  <li>Rfefefefeef</li>
+</ol>
+
+  <h3 id="2025-02-05h">Homework 04:</h3>
+  <p>Submit in your classwork directory with the filename <code>04-regex.txt</code> this should be a plain text document.</p>
+  <h2>Urgent</h2>
+  <p>Your homework is to show multiple expressions per question. <strong>If you just submit your answer, then you will get NO credit</strong> .</p>
+  <p>Show the evolution of your answer by including <strong> EACH expression that you went through to get to your final answer!</strong> </p>
+  <p>Put a heading on your file: </p>
+  <pre>Last,First,Period
+HW##,DATE</pre>
+
+
+  <h3>Question 1</h3>
+
+  <p>Write a regex that checks for valid names.</p>
+  <p>You will be submitting as many expressions as you needed to built up the final answer. You do not have to inflate this quantity but it should be more than 1 for sure.</p>
+  <h4>What is a valid name?</h4>
+  <p>A valid name consists of the following:</p>
+  <p>first name, an optional middle name or initial, and a last name, separated by spaces.</p>
+  <p>First, middle and last names start with a capital letter and are followed by one or more lowercase letters.</p>
+  <p>If the name has a middle initial, instead of a middle name, it must be a capital letter followed by a period. </p>
+  <p>Sorry we are lumping 2 part first names or two part last names into "middle names" to simplify things. We are also not including titles like junior, senior, esquire etc.</p>
+  <p>Examples you should paste into <a href="https://regex101.com/">https://regex101.com/</a> </p>
+
+    <pre>MATCH:
+Joe Public
+Xiao Xiao Mao
+Joe Q. Public
+Joe Quincy Public
+Ferris Buler
+William M. Mason
+David Copperfield
+
+DO NOT MATCH:
+Joe P.
+Omae wa mou shindeiru
+Joe Q Public
+Joe Qu. Public
+Joe Quincy Reginald Public
+Joe Quincy Public, the Third
+Dave P.
+Little Richard III</pre>
+  <p>Your answer should be something like this (spaces will represent actual spaces):</p>
+  <pre> [a-z]* [a-z]* [a-z]*</pre>
+
+  <p>To match a whole line, so that you don't get partial names, we use the ^ for the start of the line, and $ for the end of the line.</p>
+  <pre>^[a-z]* [a-z]* [a-z]*$</pre>
+
+  <p>Lets not forget some last names are hyphenated!</p>
+  <p>optional: (Hyphenated last names with upper case)</p>
+  <pre>
+Abby Smith-Fitzgerald
+Aerating A. Silver-Kimono
+Joe Quincy Public-Defender</pre>
+
+<h3>Question 2</h3>
+<h4>Part a</h4>
+<p>First match IPV4 address formats, four numbers separated by periods. E.g <code>1.2.3.4</code>, <code>192.168.1.24</code>, etc. </p>
+
+<h4>Part b: keep updating your regex</h4>
+<p>Update your answer to REJECT invalid ip addresses. Each of the four numbers must be between 0 and 255. There should be NO leading zeros.</p>
+<p>Accept: (but not limited to these)</p>
+<pre>1.1.1.1
+255.0.0.255
+192.168.1.255
+192.168.1.1
+255.255.255.255
+0.0.0.0</pre>
+
+
+<p>Reject: (fewer or greater than 4 numbers, numbers out of range, negative numbers, missing numbers, extra periods etc.)<p>
+<pre>
+30.168.1.255.1
+127.1
+192.268.1.156
+192.268.-1.156
+192.168.1.256
+-1.2.3.4
+1.1.1.01
+1.1.1.1.
+8.8.8..8
+3...3</pre>
+
+
+<p><a href="#TOP">go back to the top of the page</a></p>
+</div>
 
 
 <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
