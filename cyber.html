@@ -45,10 +45,13 @@ function closeNav() {
     <li> <a href="#2025-01-28n">01-28 Logistics & Course Overview</a></li>
     <li> <a href="#2025-01-30n">01-30 Cyber hygiene</a></li>
     <li> <a href="#2025-01-31n">01-31 Terminal Fu</a></li>
+    <li> <a href="#2025-02-05n">02-05 REGEX</a></li>
+    <li> <a href="#2025-02-06n">02-06 tr, and grep with regex</a></li>
   </ul>
   <h3>Assignments</h3>
   <ul>
     <li> <a href="#2025-02-05h">02-05 HW04</a></li>
+    <li> <a href="#2025-02-03h">02-03 Lab00</a></li>
     <li> <a href="#2025-01-31h">01-31 HW03</a></li>
     <li> <a href="#2025-01-28h">01-28 HW01</a></li>
   </ul>
@@ -61,6 +64,108 @@ function closeNav() {
 <!-- To Hide elements:
 <div style="display:none"> HIDDEN CONTENT </div>
 -->
+
+<!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
+
+<div class="contentBlock" id="2025-02-06n">
+  <h5>2025-02-06</h5>
+  <h3>Quiz</h3>
+  <p>Next week you will have a quiz on terminal commands and regex. I don't know which day yet, but this is a nice way to give a narrow scope of topics.</p>
+  <p>From regexlearn.com (up to 44), you need it all except for:</p>
+  <ul>
+    <li> Non-capturing Grouping</li>
+    <li>look-ahead</li>
+    <li>look-behind</li>
+    <li>Flags</li>
+  </ul>
+  <h3>Using regex with grep</h3>
+  <p>grep requires the -E  (Extended) flag for full regex support, otherwise it has only a subset of what we learned. This is true for many regex compatible tools, though the flag may be different.</p>
+
+
+
+
+  <h3>New useful terminal commands</h3>
+  <p>tr - Translate, squeeze, and/or delete characters from standard input, writing to standard output.</p>
+  <p>-d (delete)</p>
+  <p>-s (squeeze repeats)</p>
+  <p>Let us use tr to help us do some manipulation of a text file...</p>
+  <ul>
+      <li>replace uppercase with lowercase</li>
+      <li>replace spaces with newlines</li>
+      <li>squeeze multiple repeats into a single</li>
+      <li>delete all puinctuation</li>
+  </ul>
+
+
+  <h3>What else can we do with these tools?</h3>
+  <pre>cat FILENAME | tr -d '[:punct:]' | tr ' ' '\n' |
+    tr -s '\n' | tr "[A-Z]" "[a-z]" |
+    \grep  -vx -f /usr/share/dict/american-english -i</pre>
+  <p>I had to escape grep to avoid </p>
+
+  <h3>Using this hands on:</h3>
+
+  <h4>Getting some ssh logs:</h3>
+
+  <p>You need sudo for this so you can try it on your own linux devices: <code>ssh myserver "journalctl | grep sshd" > sshlog.txt</code> </p>
+  <p>Now filter the <code>sshlog.txt</code> only the disconnections, and also dump it to a local file:</p>
+  <p>I have placed <code>/tmp/sshlog.txt</code> on marge for you to retrieve. What commands can get the file?</p>
+
+  <h3>Remember the clues from the scavenger hunt?</h3>
+  <p>Look at the extra command at the end of this chain:</p>
+  <pre>grep -r "### Clue" | sort -k 3n |
+    sed -E 's/(.*)\/.* Clue (.*): .*/Clue:\2 Folder:\1/'</pre>
+  <p>What are the parameters in between the "/" in sed? </p>
+  <p>We shall now look at sed, the strem editor.</p>
+
+  <h3>Edit the stream:</h3>
+  <p>sed is a stream editing program, the way we will use it is for text replacement:</p>
+  <p><code>sed -E 's/target/replacement/'</code> where -E is for extended regex.</p>
+
+
+  <h4>Matching up to a specific word(or words)</h4>
+  <p>Given this data file called 'words':</p>
+  <pre><code>a fish bites
+a dog barks
+the dog runs
+many fish fly
+many fish fry
+my dog sleeps
+  </code></pre>
+<p>If you want to match UP TO a string or multiple strings you can do the following:</p>
+<p><code>cat words |  sed -E 's/^.*(dog |fish )//'</code> will replace everything UP TO dog or fish and replace with nothing.</p>
+<p> <code>cat words | sed -E 's/.*(dog|fish).*/\1/'</code> will capture the entire line and replace it with capture group 1. The \1 in the replacement field stands for capture group 1.</p>
+<p>This effectively strips away all parts on the left and right side of the words we wanted. Now lets try to combine our regex powers...</p>
+
+<h3>Back to your ssh logs:</h3>
+<p>Here is how you get rid of everything before andincluding the "Disconnected from" in EACH LINE of the text file:</p>
+<p><code>cat sshlogfile | sed 's/^.*Disconnected from //'</code> </p>
+
+<h3>Run multiple substitutions:</h3>
+<p><code>sed 's/a/b/; s/c/d'</code>  will replace a with b, and also repalce c with d. You can chain multiple substitutions like the following:</p>
+<p><code>cat sshlogfile| sed -E 's/^.*Disconnected from //;s/ port .*$//; s/invalid user //;s/authenticating user //'</code> </p>
+<p>The previous line will remove the start and ending parts of the line, and result in just "username IPADDRESS"</p>
+
+<h3>Part 2:</h3>
+<p>I have posted the log of failed attempts on <code>marge</code>, in : <code>/tmp/MargeFailedAttempts.txt</code> </p>
+
+<p>Now try to make the regex that matches the whole line but includes CAPTURE GROUPS for the username and the IP address</p>
+<p>The end result should be each line is replaced with "IP username" </p>
+<code>tail MargeFailedAttempts.txt   | sed -E 's/REGEX/REPLACEMENT/'</code>
+
+<h3>Use capture Groups:</h3>
+<p>Writing <code>\1</code> as a replacement will substitute the 1st capture group, <code>\2</code> is the 2nd etc.</p>
+
+
+<h2 id="2025-02-06h">Homework</h2>
+<h3>Perusall due Monday 8am.</h3>
+<p>It will be released at the end of the day. You must come back to the assignment after others have had time to post. DO NOT wait until Sunday night/Monday morning to do the assignment, you should start tonight.</p>
+<p>You will have another homework that overlaps, so don't procrastinate.</p>
+
+
+
+  <p><a href="#TOP">go back to the top of the page</a></p>
+</div>
 
 <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
 <div class="contentBlock" id="2025-02-05n">
@@ -91,7 +196,7 @@ function closeNav() {
   <p>You can use these (and more options) to find or validate strings.</p>
   <p>Create a regex that will match some of the following words but not the rest using what you know of regex:</p>
   <p>Two or more consecutive z's in the middle of non-z's.</p>
-	<pre> match:
+	<pre>--match:
 wazzzzzzzup
 wazzup
 skip:
@@ -104,18 +209,17 @@ zzzaaaazzz
   </pre>
 
   <p>even number of consecutive z's but not 0, in the middle of non-z's.</p>
-  <pre>match:
+  <pre>--match:
 wazzzzzzup
 wazzzzup
 wazzup
-skip:
+--skip:
 wazup
 wazuzp
 wazzzup
 fazzzup
 fazzzuli
-zzfaulizzzz
-</pre>
+zzfaulizzzz</pre>
 <p>Use capture groups, not a 3 way or statement.</p>
  <pre>match:
 timtim-tim
@@ -507,7 +611,7 @@ clean:
   <p>You can find more information on makefiles here: <a href="http://konstantinnovation.github.io/systems.html#2024-09-16n">http://konstantinnovation.github.io/systems.html#2024-09-16n</a> </p>
 
   <hr>
-  <h2>Lab00</h2>
+  <h2 id="2025-02-03h">Lab00</h2>
   <p>This is a test lab to ensure you can use the tools required for future labs.</p>
   <p>You must always test your labs on the StuyCS Lab computers, to avoid any compatibility issues.</p>
   <p><a href="https://classroom.github.com/a/in8yfTB0">https://classroom.github.com/a/in8yfTB0</a> </p>
