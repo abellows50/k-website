@@ -65,6 +65,86 @@ function closeNav() {
 <div style="display:none"> HIDDEN CONTENT </div>
 -->
 
+<div class="contentBlock" id="2025-02-07n">
+    <h5>2025-02-07</h5>
+  <h3>Is your regex weaksauce?</h3>
+  <p><strong>Protips:</strong></p>
+  <p>Use <a href="regex101.com/">regex101.com</a> to help you figure out why some lines do not get matched!</p>
+
+
+
+
+  <h3>Back to your ssh logs:</h3>
+  <p>Here is how you get rid of everything before andincluding the "Disconnected from" in EACH LINE of the text file:</p>
+  <p><code>cat sshlogfile | sed 's/^.*Disconnected from //'</code> </p>
+
+  <h3>sed substitutions:</h3>
+  <p><code>sed 's/a/b/'</code>  will replace a with b. To use regex add the -E flag.</p>
+
+  <h3>multiple substitutions:</h3>
+  <p><code>sed 's/a/b/; s/c/d'</code>  will replace a with b, and also repalce c with d. You can chain multiple substitutions like the following:</p>
+  <p><code>cat sshlogfile| sed -E 's/^.*Disconnected from //;s/ port .*$//; s/invalid user //;s/authenticating user //'</code> </p>
+  <p>The previous line will remove the start and ending parts of the line, and result in just "username IPADDRESS"</p>
+
+  <h3>Classwork:</h3>
+  <p>I have placed <code>/tmp/sshlog.txt</code> on marge for you to retrieve. What commands can get the file?</p>
+  <p>Get this file if you don't have it. You can use many commands, scp being the most obvious. I will frequently ask you to get files, you need this skill.</p>
+  <p>Create a directory in your classwork repo: <code>repo/2025-02-07-Regex/</code>, place the sshlog.txt in it, and do today's work there. You can create additional files without cluttering your home directory.</p>
+
+  <h4>Filter the failed passwords</h4>
+  <p>First we want to find any bad login attempts from invalid passwords. This can be done by grepping the error message that occurs when you give a bad password, find this in the log file then filter your data set.</p>
+  <p>You can output that into a 2nd file <code>sshfailed.txt</code> </p>
+
+  <h4>Now lets get the username and IP addresses.</h4>
+  <p>Now try to make the regex that matches the whole line but includes CAPTURE GROUPS for the username and the IP address</p>
+  <p>The end result should be each line is replaced with "IP username" </p>
+  <code>tail sshfailed.txt | sed -E 's/REGEX/REPLACEMENT/'</code>
+
+  <h3>Use capture Groups:</h3>
+  <p>Writing <code>\1</code> as a replacement will substitute the 1st capture group, <code>\2</code> is the 2nd etc.</p>
+
+  <p>e.g. </p>
+  <code>tail sshfailed.txt | sed -E 's/^REGEX(GROUP1)REGEX(GROUP2)REGEX$/\1 \2/'</code>
+  <p>results:</p>
+  <div class="code">
+49.88.112.72 root<br>
+223.68.4.237 etienne<br>
+49.88.112.72 root<br>
+49.88.112.72 root<br>
+159.89.89.127 postgres<br>
+134.209.154.246 elle<br></div>
+
+  <p><strong>If that works:</strong> run it on the whole file, don't use tail.</p>
+  <p>Try switching the \1 and \2 or removing one.</p>
+  <p><code>cat sshlog.txt | sed -E 's/^.*Disconnected from (authenticating |invalid )?user (.+) ([0-9\.]+) port.*$/\2 \3/'</code> </p>
+  <p>This line captures the user in the 2nd capture group, and the IP in the 3rd. The whole line is replaced with just the "username IP"</p>
+
+  <h3>Combine with other commands</h3>
+  <p>Remember that you can use other bash commands to convert the data for you.</p>
+  <p><code>sort | uniq -c | sort -nk1</code> will combine repeated values and sort them, so you can see which usernames attemted to log in the most, or which ip addresses.</p>
+
+
+  <h3>Homework:</h3>
+  <p>Create a new text file <code>05-sshlogs.txt</code> in the root of your classwork repo.</p>
+  <p>PLACE a heading with your  LASTName/FIRSTName/PERIOD at the top of the text file.</p>
+  <h4>Directions:</h4>
+  <p>Answer the questions below </p>
+  <p>If you used a command to calculate the result, <strong>submit the command you used</strong> and an explanation of how it worked. A ballpark result is given so you know if you are close or not.</p>
+  <ol>
+    <li>What flag of the uniq command shows the number of duplicates?</li>
+    <li>What flag of sort can sort numbers properly?</li>
+    <li>How many total attempts to log in as root were there? (exclude rootroot, root1 etc.) (~3000) </li>
+    <li>How many times was the account <code>user1</code> used to try to connect?  </li>
+    <li>How many unique IP addresses tried to connect as root? (~20ish) if you exclude rootroot, root1, root2 etc.)</li>
+    <li>How many unique account names used to connect? (~300ish)</li>
+    <li>Which account was used to try to connect the 4<sup>th</sup> most frequently? (hint sort!)</li>
+    <li>How many ip addressses tried to connect more than 50 times?</li>
+    <li>Find the 10 least frequent accounts that connected more than 10 times,and how many times they were used. (hint uniq can count how many when you are removing duplicates. (test1,etc...))</li>
+  </ol>
+</div>
+
+
+
 <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
 
 <div class="contentBlock" id="2025-02-06n">
@@ -101,15 +181,9 @@ function closeNav() {
   <pre>cat FILENAME | tr -d '[:punct:]' | tr ' ' '\n' |
     tr -s '\n' | tr "[A-Z]" "[a-z]" |
     \grep  -vx -f /usr/share/dict/american-english -i</pre>
-  <p>I had to escape grep to avoid </p>
+  <p>I excaped grep because of a macro, \command will make you use the command WITHOUT resolving an alias.</p>
+  <p>e.g. if you have <code>alias rm=rm -i</code> then <code>\rm FILENAME</code> will ignore the alias and not use the -i </p>
 
-  <h3>Using this hands on:</h3>
-
-  <h4>Getting some ssh logs:</h3>
-
-  <p>You need sudo for this so you can try it on your own linux devices: <code>ssh myserver "journalctl | grep sshd" > sshlog.txt</code> </p>
-  <p>Now filter the <code>sshlog.txt</code> only the disconnections, and also dump it to a local file:</p>
-  <p>I have placed <code>/tmp/sshlog.txt</code> on marge for you to retrieve. What commands can get the file?</p>
 
   <h3>Remember the clues from the scavenger hunt?</h3>
   <p>Look at the extra command at the end of this chain:</p>
@@ -121,7 +195,6 @@ function closeNav() {
   <h3>Edit the stream:</h3>
   <p>sed is a stream editing program, the way we will use it is for text replacement:</p>
   <p><code>sed -E 's/target/replacement/'</code> where -E is for extended regex.</p>
-
 
   <h4>Matching up to a specific word(or words)</h4>
   <p>Given this data file called 'words':</p>
@@ -137,24 +210,18 @@ my dog sleeps
 <p> <code>cat words | sed -E 's/.*(dog|fish).*/\1/'</code> will capture the entire line and replace it with capture group 1. The \1 in the replacement field stands for capture group 1.</p>
 <p>This effectively strips away all parts on the left and right side of the words we wanted. Now lets try to combine our regex powers...</p>
 
-<h3>Back to your ssh logs:</h3>
-<p>Here is how you get rid of everything before andincluding the "Disconnected from" in EACH LINE of the text file:</p>
-<p><code>cat sshlogfile | sed 's/^.*Disconnected from //'</code> </p>
+<h3>Using this hands on:</h3>
+<h4>ssh can take command line arguments!</h4>
+<p>Passing a string into ssh at the end of the line, will cause ssh to run that string on the remote host!</p>
+<p>So <code>ssh bob@marge.stuy.edu "cd Documents; ls"</code> would show you the contents of the Documents folder on marge, then exit the ssh program.</p>
 
-<h3>Run multiple substitutions:</h3>
-<p><code>sed 's/a/b/; s/c/d'</code>  will replace a with b, and also repalce c with d. You can chain multiple substitutions like the following:</p>
-<p><code>cat sshlogfile| sed -E 's/^.*Disconnected from //;s/ port .*$//; s/invalid user //;s/authenticating user //'</code> </p>
-<p>The previous line will remove the start and ending parts of the line, and result in just "username IPADDRESS"</p>
+<h4>Getting some ssh logs:</h3>
 
-<h3>Part 2:</h3>
-<p>I have posted the log of failed attempts on <code>marge</code>, in : <code>/tmp/MargeFailedAttempts.txt</code> </p>
+<p>You need sudo for this so you can try it on your own linux devices: <code>ssh myserver "journalctl | grep sshd" > sshlog.txt</code> </p>
+<p>Now filter the <code>sshlog.txt</code> only the disconnections, and also dump it to a local file:</p>
+<p>I have placed <code>/tmp/sshlog.txt</code> on marge for you to retrieve. What commands can get the file?</p>
+<p>Get this file now, you can use many commands, scp being the most obvious. I will frequently ask you to get files, you need this skill.</p>
 
-<p>Now try to make the regex that matches the whole line but includes CAPTURE GROUPS for the username and the IP address</p>
-<p>The end result should be each line is replaced with "IP username" </p>
-<code>tail MargeFailedAttempts.txt   | sed -E 's/REGEX/REPLACEMENT/'</code>
-
-<h3>Use capture Groups:</h3>
-<p>Writing <code>\1</code> as a replacement will substitute the 1st capture group, <code>\2</code> is the 2nd etc.</p>
 
 
 <h2 id="2025-02-06h">Homework</h2>
