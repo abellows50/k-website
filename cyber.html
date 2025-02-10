@@ -47,10 +47,13 @@ function closeNav() {
     <li> <a href="#2025-01-31n">01-31 Terminal Fu</a></li>
     <li> <a href="#2025-02-05n">02-05 REGEX</a></li>
     <li> <a href="#2025-02-06n">02-06 tr, and grep with regex</a></li>
+    <li> <a href="#2025-02-07n">02-07 sed with regex</a></li>
+    <li> <a href="#2025-02-10n">02-10 Passwords</a></li>
   </ul>
   <h3>Assignments</h3>
   <ul>
-    <li> <a href="#2025-02-05h">02-05 HW04</a></li>
+    <li> <a href="#2025-02-07h">02-07 HW05 sshlogs</a></li>
+    <li> <a href="#2025-02-05h">02-05 HW04 regex</a></li>
     <li> <a href="#2025-02-03h">02-03 Lab00</a></li>
     <li> <a href="#2025-01-31h">01-31 HW03</a></li>
     <li> <a href="#2025-01-28h">01-28 HW01</a></li>
@@ -65,14 +68,188 @@ function closeNav() {
 <div style="display:none"> HIDDEN CONTENT </div>
 -->
 
+<div class="contentBlock" id="2025-02-10n">
+  <h3>Passwords:</h3>
+  <p>Let us see why you need to include capital letters, numbers, and special characters in your passwords:</p>
+  <p><img loading="lazy" src="img/passwords.png" width="700px" alt="password possibilities chart"></p>
+  <p>The actual impact of special characters is even greater, as this chart excludes many acceptable characters such as <code>-+{}[]&lt&gt|\/</code> </p>
+  <p>
+    Let us use the shorthand for a type of password which contains many different symbols regardless of length, we will use the term "good password" to mean this.
+    "good passwords" use Numbers, Upper+Lower case letters, AND symbols... That is about 80 possibilities on the keyboard per character.
+    The number of passwords is therefore  is 80<sup>x</sup> where x = password length.
+  </p>
+  <ol>
+    <li>80<sup>1</sup> = 80</li>
+    <li>80<sup>2</sup> = 6400</li>
+    <li>80<sup>3</sup> = 512,000</li>
+    <li>80<sup>4</sup> = 40,960,000</li>
+    <li>80<sup>5</sup> = 3,276,800,000</li>
+    <li>80<sup>6</sup> = 262,144,000,000</li>
+    <li>80<sup>7</sup> = 20,971,520,000,000</li>
+    <li>80<sup>8</sup> = 1,677,721,600,000,000</li>
+    <li>80<sup>9</sup> = 134,217,728,000,000,000</li>
+  </ol>
+  <p>etc...</p>
+
+
+    <p>Here is a good measure to see how cheap cracking is available to all: <a href="https://thesecurityfactory.be/password-cracking-speed/">https://thesecurityfactory.be/password-cracking-speed/</a> </p>
+
+    <h3>Passwords are hashed</h3>
+    <p>In order to have your services not store your password,they store a hashed password. This is a one way encryption function.</p>
+    <p>When you submit your password, the service will hash what you submitted and check if that matches the hash that was stored, you typed your password correctly.</p>
+
+    <h3>What are hashes?</h3>
+    <p>A hash function is often called a trap door function. Computing the result is easy, computing the inverse of the operation is not possible. A function with no inverse that is used in hashing is the remainder operation.</p>
+    <p>example: Imagine adding up the ASCII values of a string and modding by some value. You could not undo this operation to get the string.</p>
+    <p>The example is a very poor hashing algorithm, but it illustrates that it is not difficult to come up with a trap door function.</p>
+
+    <h3>Cracking Passwords:</h3>
+    <p>Passwords are not cracked by guessing on the website login page, that is almost never the way you brute force a password.</p>
+    <p>In practice, websites can have their user data stolen, which includes a list of their users, their email addresses, and their encrypted passwords. There can be much more information stolen depending on the service that was hacked.</p>
+    <p>Since the passwords are encrypted and you cannot calculate the inverse of the hash you are safe... right?</p>
+    <p>Wrong.</p>
+
+    <h3>Cracking Hashes:</h3>
+    <h4>Brute Force Attacks</h4>
+    <p>The way you crack a hash is: use the same hashing algorithm on all possible words until the results match the hash of the password you are trying to find.</p>
+    <p>In the table below, if you have the hash <code>84d961568a65073a3bcf0eb216b2a576</code> you just have to start hashing all words... "password" "letmein" "superman" etc. until the result matches your hash</p>
+    <table>
+      <tr>
+        <th>attempt</th><th>result</th>
+      </tr>
+        <tr><td>hash("a")</td><td>0cc175b9c0f1b6a831c399e269772661</td></tr>
+        <tr><td>hash("b")</td><td>92eb5ffee6ae2fec3ad71c777531578f</td></tr>
+        <tr><td>...</td></tr>
+        <tr><td>hash("ab")</td><td>187ef4436122d1cc2f40dc2b92f0eba0</td></tr>
+        <tr><td>...</td></tr>
+        <tr><td>hash("letmein")</td><td>0d107d09f5bbe40cade3de5c71e9e9b7</td></tr>
+        <tr><td>...</td></tr>
+        <tr><td>hash("password")</td><td>5f4dcc3b5aa765d61d8327deb882cf99</td></tr>
+        <tr><td>...</td></tr>
+        <tr><td>hash("superman")</td><td> <strong>84d961568a65073a3bcf0eb216b2a576</strong> </td></tr>
+    </table>
+    <p>Upon hashing superman, you can see that the resulting hash is the same as the original one we were looking for. The password is superman.</p>
+
+
+
+    <h3>Fast computers can crack hashes VERY fast</h3>
+    <p>
+      Let us consider that a highly specialized computer or computer cluster can calculate billions of hashes per second.
+      This means that a length 6 "good" password would take seconds to find the right hash, while a length 7 password would take minutes.
+    </p>
+    <p>
+      This is an arbitrary table that chooses an "old" fast way to crack passwords, newer ways are about 5-10 times faster.
+      Notice that "1000 times faster! or 1 million times faster" would not help with passwords that are 15+ characters long.
+    </p>
+    <p>
+      As you can see from the image below: If everyone used randomized "good passwords" that were 15+ characters long,
+      then cracking hashes would be impossible with current algorithms and hardware.
+    </p>
+    <p><img loading="lazy" src="img/crackingspeed.png" alt="" width="700"></p>
+
+    <h3>Password cracking strategies</h3>
+    <p><a href="https://xkcd.com/538/">https://xkcd.com/538/</a></p>
+    <img loading="lazy" src="https://imgs.xkcd.com/comics/security.png" alt="https://xkcd.com/538">
+    <h4>Step 1: Password list</h4>
+    <p>If you have a password list, you can try all of the common passwords first. This will weed out any weak passwords right away.</p>
+    <p>
+      There is a list of real world passwords called rockyou. This list "rockyou.txt" contains 14,341,564 unique passwords,
+      used in millions of different accounts. By pulling real world used passwords you can quickly check these particular
+      passwords before you try to crack all the random ones. This has a high chance of succeeding on people that don't use good passwords!
+    </p>
+    <p>rockyou.txt contains the most frequently used passwords sorted by frequency.</p>
+
+    <p>Keep in mind that rockyou is not really effective against targets with good password policies. To succeed with a dictionary attack you may need to create your own wordlist especially if your target is not in an english speaking country.</p>
+    <p>Hackers often supplement this password list with other password lists that contain multiple word combinations and common letter substitutions.</p>
+    <p>You can easily aquire this list by googling: "rockyou password list" or "rockyou password list github"</p>
+    <p>You can also find rockyou.txt in your cyber_resources directory so you DO NOT download it onto the school network.</p>
+    <p>here is a link to the list: <a href="https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt">https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt</a> </p>
+
+    <h4>Step 2: Rainbow tables</h4>
+    <p>You can pre-compute all possible hashes for passwords up to a particular length. These precomputed list of passwords+hashes are called rainbow tables.</p>
+
+    <h4>Step 3: brute force cracking</h4>
+    <p>This can be dumb try all passwords brute forcing, or more intelligent ones.</p>
+    <p>Creative ways include combining multiple words into longer passwords, or patterns e.g. capitalized 1st letter, + 1 number at the end of the password.</p>
+    <h3>Protection against Password cracking</h3>
+    <h4>Salt</h4>
+    <p>To protect against password cracking attempts using rainbow tables, you can use a salt.</p>
+    <p>A salt is a random string of characters that is unique per user, and stored with the user information.</p>
+    <p>This has several benefits:</p>
+    <ol>
+      <li>Users with the same password will have different hashes. So they must be cracked separately. This multiplies the cracking time by the number of hashshes stolen.</li>
+      <li>Rainbow tables most likely will not include significantly longer passwords (The salt length adds to the password length)</li>
+    </ol>
+    <h4>Pepper</h4>
+    <p>To protect against password cracking attempts using brute force cracking we use a pepper.</p>
+    <p>When you add a random letter to the end of the password before hasing, this is called a pepper.</p>
+    <p>A pepper is NOT stored with the account, instead you have to try all possible pepper values. </p>
+    <p>This is trivial to test 26 or 52 letters when someone logs in, but imagine cracking and having to test 52 extra times per login.</p>
+    <p>This doesn't protect against rainbow tables as it is just one extra letter in length.</p>
+
+    <h4>Putting it together:</h4>
+    <table>
+      <tr>
+        <th>
+          username
+        </th>
+        <th>
+          password
+        </th>
+        <th>
+          salt
+        </th>
+        <th>
+          pepper
+        </th>
+        <th>
+          hash(pass + salt + pepper)
+        </th>
+        <th>
+          resulting hash
+        </th>
+      </tr>
+      <tr>
+        <td>joe</td>
+        <td>"Password"</td>
+        <td>"aj3oD"</td>
+        <td>?</td>
+        <td>hash("Passwordaj3oD"+?)</td>
+        <td>f60e0e65d61f713ca1e1840aa096942c</td>
+      </tr>
+      <tr>
+        <td>dave</td>
+        <td>"Password"</td>
+        <td>"f03AL"</td>
+        <td>?</td>
+        <td>hash("Passwordf03AL"+?)</td>
+        <td>77e0e8bfdb1b0a0ebf9f0beafb81a5c4</td>
+      </tr>
+      <tr>
+        <td>joy</td>
+        <td>"Mxk4^d(l52Z"</td>
+        <td>"gns9R"</td>
+        <td>?</td>
+        <td>hash("Mxk4^d(l52Zgns9R"+?)</td>
+        <td>5a149d3f82c6f4ee24e62ab7f351a3b3</td>
+      </tr>
+    </table>
+    <p>You can guess the pepper in these examples by running a command on the string + [a-zA-Z] and checking if any match</p>
+    <p><code>echo -n "password" | md5sum</code> </p>
+    <p>Note the -n is a flag that removes the newline from the output of echo, so you don't include that in your hash function (md5)</p>
+
+    <h3>Final thoughts</h3>
+    <p>Do not implement your own password system. Use existing proven ones. </p>
+    <p>e.g. Using Google's <a href="https://developers.google.com/identity/protocols/oauth2">OAuth 2.0 protocol</a>  for authentication and authorization. This lets you piggy back your service on top of googles already secure authentication process and you don't have to store any passwords.</p>
+
+  <p><a href="#TOP">go back to the top of the page</a></p>
+</div>
+
 <div class="contentBlock" id="2025-02-07n">
     <h5>2025-02-07</h5>
   <h3>Is your regex weaksauce?</h3>
   <p><strong>Protips:</strong></p>
   <p>Use <a href="regex101.com/">regex101.com</a> to help you figure out why some lines do not get matched!</p>
-
-
-
 
   <h3>Back to your ssh logs:</h3>
   <p>Here is how you get rid of everything before andincluding the "Disconnected from" in EACH LINE of the text file:</p>
@@ -124,7 +301,7 @@ function closeNav() {
   <p><code>sort | uniq -c | sort -nk1</code> will combine repeated values and sort them, so you can see which usernames attemted to log in the most, or which ip addresses.</p>
 
 
-  <h3>Homework:</h3>
+  <h3 id="2025-02-07h">Homework:</h3>
   <p>Create a new text file <code>05-sshlogs.txt</code> in the root of your classwork repo.</p>
   <p>PLACE a heading with your  LASTName/FIRSTName/PERIOD at the top of the text file.</p>
   <h4>Directions:</h4>
