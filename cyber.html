@@ -52,7 +52,9 @@ function closeNav() {
   </ul>
   <h3>Assignments</h3>
   <ul>
+    <li> <a href="#2025-02-11h">02-11 perusall stuxnet</a></li>
     <li> <a href="#2025-02-07h">02-07 HW05 sshlogs</a></li>
+    <li> <a href="#2025-02-06h">02-06 perusall passwords</a></li>
     <li> <a href="#2025-02-05h">02-05 HW04 regex</a></li>
     <li> <a href="#2025-02-03h">02-03 Lab00</a></li>
     <li> <a href="#2025-01-31h">01-31 HW03</a></li>
@@ -64,10 +66,276 @@ function closeNav() {
 <div id="rightColumn">
 <button class="openbtn" onclick="openNav()" id="openSidebar" style="display:none">☰</button>
 
+<!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
 <!-- To Hide elements:
 <div style="display:none"> HIDDEN CONTENT </div>
 -->
 
+<!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
+<div class="contentBlock" id="2024-02-09n">
+  <h2>Do Now</h2>
+  <p>Consider dates in the format YYYY-MM-DD or YYYY/MM/DD, how do you match that using regex? (assume starting from the year 1000)</p>
+  <p>What if the year can be 2 or 4 digits. YY-MM-DD ? What if the MM and DD can be 1 digit, e.g. 4 instaed of 04</p>
+  <p>Now what about validation of realistic already existing dates (19xx or 20xx) / also valid month/days: 00-99-99 is not valid.</p>
+  <p>Do not worry about matching correct number of days in the month.</p>
+  <p style="display:none"><code>^(19|20)?[0-9]{2}(\/|-)(1[0-2]|0?[1-9])\2(3[01]|[12][0-9]|0?[1-9])$</code></p>
+
+  <h3>quick topic:</h3>
+  <p>Browsers have inspect html or edit html features</p>
+
+  <h3>Change Passwords</h3>
+  <p>A minor detour from applied terminal skills:</p>
+  <p>Everyone needs to ssh onto the password server and change their password.</p>
+  <p>Instructions provided in class.</p>
+  <p style="display:none">Go to the password server, <code>ssh username@149.89.17.91</code> , then change your password using the command: <code>passwd</code> </p>
+
+  <h3>Quiz</h3>
+  <p>You have a quiz on Feb 12th xor Feb 13th on regex + terminal commands / shell features (including pipes redirects etc).</p>
+
+  <h3>Terminal</h3>
+  <p>Minor point: <code>cd</code> and <code>exit</code> are not programs, they are built into the shell. This is different from ls, wc, cowsay, cp, mv, etc, are all programs.</p>
+  <p>Similarly <code>&lt</code> , <code>&gt</code> , <code>|</code> are also built into the shell.</p>
+  <p>The <code>&</code> and <code>fg</code> options are super useful built in shell features as well. Combined with <code>Ctrl-Z</code> you can run/send commands to the background of your shell while you do other things!</p>
+
+
+  <h3>Operations security</h3>
+  <p>
+    Operations security (OPSEC) is a process that identifies critical information to determine
+    if friendly actions can be observed by enemy intelligence, determines if information obtained
+    by adversaries could be interpreted to be useful to them, and then executes selected measures
+    that eliminate or exploitation of friendly critical information. - Wiki definition
+  </p>
+
+  <h3>General Skill Stacks:</h3>
+  <p>
+    There are many different very deep categories of knowledge in cybersecurity.
+    It can take years to master just one of these. Each of these stacks can be  broken down into many components…
+    Many of these fields do not require you to be the best at math, or coding!
+  </p>
+
+
+  <table border="1px">
+    <tr>
+      <td>
+        <strong>Networking</strong><ul>
+          <li>-Routers/Switches</li>
+          <li>-IPTables</li>
+          <li>-PCAP</li>
+          <li>-OSI Model</li>
+          <li>-TCP</li>
+          <li>...</li>
+        </ul>
+      </td>
+      <td>
+        <strong>System Administration</strong><ul>
+          <li>-Operating Systems</li>
+          <li>-File Systems</li>
+          <li>-Backups</li>
+          <li>-Databases</li>
+          <li>-Virtual Machines</li>
+          <li>...</li>
+        </ul>
+      </td>
+      <td>
+        <strong>Digital Security</strong>
+        <ul>
+          <li>-OPSEC</li>
+          <li>-Privacy</li>
+          <li>-Passwords</li>
+          <li>-Cryptography</li>
+          <li>...</li>
+        </ul>
+      </td>
+      <td>
+        <strong>Audit & Compliance</strong>
+        <ul>
+          <li>-ISO 270001</li>
+          <li>-CIS Controls</li>
+          <li>-Common Criteria</li>
+          <li>-NIST-800</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+    </td>
+    <td>
+      <strong>Forensics</strong><ul>
+        <li>-Disk</li>
+        <li>-Autopsy</li>
+        <li>-Memory</li>
+        <li>-Network</li>
+        <li>...</li>
+      </ul>
+    </td>
+    <td>
+      <strong>Command Line</strong><ul>
+        <li>-Coding*</li>
+        <li>-Git</li>
+        <li>-Powershell</li>
+        <li>-Bash</li>
+        <li>...</li>
+      </ul>
+    </td>
+    <td>
+      <strong>Reverse Engineering</strong><ul>
+        <li>-Fuzzing</li>
+        <li>-Debugging</li>
+        <li>-Assembly</li>
+        <li>-IDA Pro</li>
+        <li>
+          ...</li>
+        </ul>
+      </td>
+      <td>
+        <strong>Cyber Operations</strong><ul>
+          <li>-Threat Intel</li>
+          <li>-APTs</li>
+          <li>-Cyber Kill Chain</li>
+          <li>-MITRE ATT&CK</li>
+          <li>...</li>
+        </ul>
+      </td>
+
+    </tr>
+  </table>
+  <p>*Notice this little topic in particular can be greatly expanded...</p>
+  <p>Each of those components has a huge number of subcomponents. for example:</p>
+
+  <h3>Networking</h3>
+  <table border="1px">
+
+    <tr>
+      <td>
+        <strong>IPTABLES</strong>
+        <ul>
+          <li>-Prerouting</li>
+          <li>-postrouting</li>
+          <li>-forward</li>
+          <li>-input/output</li>
+          <li>...</li>
+        </ul>
+      </td>
+
+      <td>
+        <strong>PCAP</strong>
+        <ul>
+          <li>-Wireshark</li>
+          <li>-tcpdump</li>
+          <li>-BPF</li>
+          <li>-SPAN</li>
+          <li>...</li>
+        </ul>
+      </td>
+
+      <td>
+        <strong>OSI Model</strong>
+        <ul>
+          <li>-ISO</li>
+          <li>-Physical</li>
+          <li>-Data Link</li>
+          <li>-Session</li>
+          <li>...</li>
+        </ul>
+      </td>
+
+      <td>
+        <strong>TCP</strong>
+        <ul>
+          <li>-Window Size</li>
+          <li>-Flags</li>
+          <li>-TTL</li>
+          <li>-Multipath</li>
+          <li>...</li>
+        </ul>
+      </td>
+
+    </tr>
+
+    <tr>
+      <td>
+        <strong>BGP</strong>
+        <ul>
+          <li>-Interior routing</li>
+          <li>-Exterior routing</li>
+          <li>-Autonomous Sys</li>
+          <li>-Prefixing</li>
+          <li>...</li>
+        </ul>
+      </td>
+      <td><strong>SWITCHES</strong>
+        <ul>
+          <li>-CAM table</li>
+          <li>-Hub</li>
+          <li>-Port Security</li>
+          <li>-MAC address</li>
+          <li>...</li>
+        </ul>
+      </td>
+      <td><strong>VENDORS</strong>
+        <ul>
+          <li>-Cisco</li>
+          <li>-Juniper</li>
+          <li>-Huawei</li>
+          <li>-TP-link</li>
+          <li>...</li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+
+  <p>
+    There is too much information out there for any one person to master. You have to prioritize based on interest and necessity.
+  </p>
+  <p>
+    Different people may choose to specialize in different areas. You may want to become a specialist in one area, and good in closely related areas, or you may want to diversify more to be able to fill a broader set of roles for a client/organization.
+  </p>
+
+  <h2>Sample Skill levels for a person:</h2>
+  <ul>
+    <li>Programming and Scripting High</li>
+    <li>Command Line High</li>
+    <li>Networking Medium</li>
+    <li>Sys Admin Medium</li>
+    <li>Digital Security Medium</li>
+    <li>Forensics Low</li>
+    <li>Reverse Engineering Low</li>
+    <li>Cyber Operations Low</li>
+  </ul>
+
+  <h2>Different Job Requirements</h2>
+  <p>
+    Since all of these are interrelated, different jobs will require a different combination of skills.
+    you would need deeper knowledge in several of these domains :
+  </p>
+  <ol>
+    <li>
+      Penetration testing:
+      Networking /
+      Digital Security /
+      Command Line/
+      Cyber Operations
+    </li>
+    <li>
+      Privilege Escalation:
+      System Administration /
+      Command Line /
+      Reverse Engineering
+    </li>
+    <li>
+      Incident Response:
+      Networking /
+      Forensics /
+      System Administration /
+      Command Line /
+      Audit & Compliance
+    </li>
+  </ol>
+
+  <h3 id="2025-02-11h">Homework:</h3>
+  <p>Perusall on Stuxnet, due Thursday 8am, with 3 annotations</p>
+</div>
+
+<!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
 <div class="contentBlock" id="2025-02-10n">
   <h3>Passwords:</h3>
   <p>Let us see why you need to include capital letters, numbers, and special characters in your passwords:</p>
@@ -323,7 +591,6 @@ function closeNav() {
 
 
 <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
-
 <div class="contentBlock" id="2025-02-06n">
   <h5>2025-02-06</h5>
   <h3>Quiz</h3>
