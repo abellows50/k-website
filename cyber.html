@@ -50,10 +50,12 @@ function closeNav() {
     <li> <a href="#2025-02-07n">02-07 sed with regex</a></li>
     <li> <a href="#2025-02-10n">02-10 Passwords</a></li>
     <li> <a href="#2025-02-11n">02-11 Skill stacks</a></li>
-    <li> <a href="#2025-02-12n">02-11 Skill stacks</a></li>
+    <li> <a href="#2025-02-12n">02-12 Cryptography</a></li>
+    <li> <a href="#2025-02-13n">02-13 Monoalphabetic ciphers</a></li>
   </ul>
   <h3>Assignments</h3>
   <ul>
+    <li> <a href="#2025-02-13h">02-13 Lab01 monoalphabetic ciphers</a></li>
     <li> <a href="#2025-02-11h">02-11 perusall stuxnet</a></li>
     <li> <a href="#2025-02-07h">02-07 HW05 sshlogs</a></li>
     <li> <a href="#2025-02-06h">02-06 perusall passwords</a></li>
@@ -71,14 +73,175 @@ function closeNav() {
 <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
 <!-- To Hide elements:
 <div style="display:none"> HIDDEN CONTENT </div>
-<h5> 2024-02-14♥ </h5>
-<p>11/11 (🍫🥢) > 02/14 (♥) </p>
 -->
+<!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
+<div class="contentBlock" id="2025-02-14n">
+  <h5> 2025-02-14♥ </h5>
+  <p>11/11 (🍫🥢) > 02/14 (♥) </p>
+</div>
+<!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
+
+<div class="contentBlock" id="2025-02-13n">
+<h5> 2025-02-13 </h5>
+<h1> Monoalphabetic Ciphers</h1>
+<p>
+  A <strong>monoalphabetic cipher</strong> is one where each symbol in plain text is mapped to a fixed symbol in cipher text.
+  The substitution not depend on the position of the plain text character, there is just
+  a one to one mapping based on a single alphabetic key.
+</p>
+
+<p>There are many different monoalphabetic substitution ciphers.</p>
+<p>
+  Each letter can be encrypted to any symbol, not just another letter. (See pigpen cipher <a href="https://en.wikipedia.org/wiki/Pigpen_cipher">https://en.wikipedia.org/wiki/Pigpen_cipher</a> )
+</p>
+
+<h3>Shift ciphers</h3>
+<p>  The Caesar cipher is a well known cipher where each letter is shifted based on a numeric key</p>
+<p>Rot13 is a Caesar cipher where the key is 13.</p>
+
+<h3>Atbash</h3>
+<p>The atbash cipher (also called mirror cipher or backwards alphabet or reverse alphabet) is a cipher where you reverse the order of the letters. e.g. change A to Z, B to Y, and so on. </p>
+
+
+<h3>Simple Substitution</h3>
+<p>
+  Since a shifted alphabet only has 26 possible rotations
+  (or double that if you include reversing the order),
+  that can be cracked instantly by trying all 26 keys.</p>
+<p>Instead we use more randomized arrangments. There are <code>26!</code> different substitution arrangements so that is much better for preventing someone from just printing 26 variations of the text and seeing which can be read.</p>
+<p>That is: you can map the original alphabet to any permutation of the alphabet and use that as a key to encrypt/decrypt.</p>
+
+<h3>Variant keys</h3>
+<p>Rather than a full alphabet mapping as a key You can use a single word as a key (Move those letters to the front of the list):</p>
+<p>Plaintext alphabet  <pre>ABCDEFGHIJKLMNOPQRSTUVWXYZ</pre></p>
+<p>Ciphertext alphabet <pre>ZEBRASCDFGHIJKLMNOPQTUVWXY</pre></p>
+
+<h3>Writing out ciphertext</h3>
+<p>Usually the ciphertext is written out in blocks of fixed length, omitting punctuation and spaces to disguise word boundaries from the plaintext.</p>
+<p>It is easy to figure out substitutions when you see word boundaries because there are very few 2-3 letter words to test with trial and error.</p>
+<p>Plaintext: "we are discovered!"</p>
+<p>Ciphertext: "VA ZOA RFPBLUAOAR!"</p>
+<p>To make it more difficult we alter the format:</p>
+<p>Ciphertext  in groups of 5 letters <pre>VAZOA RFPBL UAOAR</pre></p>
+
+
+<h1 id="2025-02-13h">Lab01 - Monoalphabetic ciphers</h1>
+<p>Deadline Wed Feb 26 8am</p>
+<h3>Makefile requirements</h3>
+<p>There is no <code> make compile</code> , your dependencies must be correct. Suppress your commands with <code>@</code> in the makefile.</p>
+
+<h3>Part  1.1</h3>
+<p>Write a program that when given source text filename, analyzes letter frequency contained in that file.</p>
+<p>
+  Letter frequency should ignore case (both lower and uppercase are counted in the same category/bucket)
+  Punctuation/special characters are completely discarded from the calculations.
+  The denominator of the frequency should be the total number of letters counted.</p>
+<p>Assume the text uses the English alphabet to simplify our programs.</p>
+<p>Print out each letter and the frequency in the format:</p>
+<pre>
+A 0.04521
+B 0.00231
+C 0.00134
+D 0.00024
+...
+X 0.0
+Y 0.00051
+Z 0.0003
+</pre>
+<h4>Implementation requirement:</h4>
+<p>
+  You must have a function that returns a list/array of the 26 frequencies in order, to make the next part easier.
+</p>
+<p>e.g. <code>freq("alice.txt")</code> returns [0.044521, 0.00231, ...]</p>
+
+<h3>Test your frequency program</h3>
+
+<p>Try using it on alice in wonderland: <a href="https://gist.githubusercontent.com/phillipj/4944029/raw/75ba2243dd5ec2875f629bf5d79f6c1e4b5a8b46/alice_in_wonderland.txt">https://gist.githubusercontent.com/phillipj/4944029/raw/75ba2243dd5ec2875f629bf5d79f6c1e4b5a8b46/alice_in_wonderland.txt</a>  </p>
+<p>You should see percentages like:</p>
+<img loading="lazy" src="img/frequencyUnsorted.png" width="400px" alt="alice in wonderland frequencies">
+<img loading="lazy" src="img/frequencySorted.png" width="400px" alt="alice in wonderland frequencies">
+
+<h3>STOP! Check your 1.1</h3>
+<p>Your lab01 part 1.1 should work like this:</p>
+<pre>$make frequency ARGS="inputFileName"</pre>
+<p>e.g.</p>
+<pre>$make frequency ARGS="alice.txt"</pre>
+<p>This enables a standard interface no matter what langage you use</p>
+
+<h3>Part 1.2</h3>
+<p>Write a program that when given two filenames, calculate the distance between two different sets of letter frequencies of each file.</p>
+<h4>Example 1 (3d point)</h4>
+<img loading="lazy" src="img/DistanceNDimensions.jpg" width="600px">
+<p>For the example below, we will pretend we only have letters, a,b,c,d.</p>
+<h4>Example 2 (4d point)</h4>
+<p>Given text1 has frequencies [0.2, 0.2, 0.2, 0.2] and text2 has frequencies [0.2, 0.25, 0.06, 0.29]</p>
+<p>The distance is  sqrt ( (.2 - .2) <sup>2</sup> + (.2 - .25) <sup>2</sup> + (.2 - .06) <sup>2</sup> +  (.2 - .29) <sup>2</sup> )  </p>
+<p>The result of which is sqrt(0.0302), so the distance is: 0.173781</p>
+<h4>Important things to make sure of:</h4>
+<p>Your code should work with arrays of EQUAL size. In the case of our program, size = 26.</p>
+
+<p><strong>Urgent:</strong> your program should open files HOWEVER, you should not have a distance function take in filenames! </p>
+<p>Your distance function should take the array of frequencies. <strong>This is critical</strong> as it allows you to read the file once, and re-use the resulting frequency table in multiple distance calculations.</p>
+<p>e.g.</p>
+<p> <code>dist([0.1, 0.2, 0.3, 0.4, 0.0],[0.1, 0.2, 0.3, 0.4, 0.0])</code> returns 0.0</p>
+
+<p><strong>Do not do this: </strong> <code> dist("filename1","filename2")</code>   <strong>Do not do this!</strong></p>
+
+<h3>STOP! Check your 1.2</h3>
+<p>Your lab01 part 1.2 should work like this:</p>
+<pre>$make distance ARGS="inputFileName1 inputFileName2"</pre>
+<p>e.g.</p>
+<pre>$make distance ARGS="alice.txt other.txt"</pre>
+
+<h3>Part 1.3</h3>
+<p>Write a program that when given a ciphertext filename, that contains a Caesar ciphered text analyzes letter frequency contained in that file, and deocdes the message automatically. Printing a single decodede message.</p>
+<p>You should ALSO include reversed alphabet and reverse shifted alphabets.</p>
+<p>This will work with sufficiently long ciphertexts, but short messages may not work well.</p>
+
+<h4>How to do this:</h4>
+<p>Your methodology should be to:  .</p>
+<p>Calculate the english_frequency by using <code>alice.txt</code> once.</p>
+<p>Calculate the message_frequency of the message once.</p>
+<p>Now find the rotation_number of the message_frequency that is closest to English using your distance function.</p>
+<p>Rotate your message (try forward or back) by that rotation_number and you should have your decoded message.</p>
+<p>To make this work with reversed alphabet ciphers (e.g. a and z are swapped, b and y are swapped.. etc.) you have to try to do the process twice, and see if swapped letters make a smaller minimum distance.</p>
+
+<strong>Note:</strong>
+<p>Punctuation and spaces are ignored for your frequency calculations, but are kept when decoding.</p>
+
+<h3>STOP! Check your 1.3</h3>
+<p>Your lab01 part 1.3 should work like this:</p>
+<pre>$make decode ARGS="inputFileName"</pre>
+
+
+<p>e.g.</p>
+<pre>$make decode ARGS="message.txt"</pre>
+<p>output:</p>
+<pre>DECODED_MESSAGE_HERE</pre>
+
+<h3>Sample messages to try to decode:</h3>
+<ol>
+  <li>Znoy skznuj corr sujole znk gxxge gtj tuz xkzaxt gteznotm. </li>
+  <li>Drp Kyv Wfitv Sv Nzky Pfl</li>
+  <li>Ftueuemomqemdoubtqdfqjf</li>
+  <li>Zlka zovz ka boxobaop sfp zlof alknzop ru 7 qlsbsqzoba. Zlsz ka aydob aoqybo erxkeyahu.</li>
+  <li>Jmqi rhybbyw, qdt jxu ibyjxo jelui. Tyt wohu qdt wycrbu yd jxu mqru: Qbb cycio muhu jxu rehewelui, Qdt jxu cecu hqjxi ekjwhqru.</li>
+</ol>
+<p>The last one should be: "Twas brillig, and the slithy toves. Did gyre and gimble in the wabe: All mimsy were the borogoves, And the mome raths outgrabe."</p>
+
+<p>Not all messages will auto decode correctly depending on the text length and letters.</p>
+<p>e.g. "jg upnro xo dla otqgpo" would NOT auto decode to: "ur faycz iz owl zebraz" </p>
+
+<p> Repo Link: <a href="https://classroom.github.com/a/xl9hFVFo">https://classroom.github.com/a/xl9hFVFo</a> </p>
+
+<p><a href="#TOP">go back to the top of the page</a></p>
+</div>
+
 
 
 <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
-<div class="contentBlock" id="2024-02-12n">
-  <h5> 2024-02-12</h5>
+<div class="contentBlock" id="2025-02-12n">
+  <h5> 2025-02-12</h5>
  <h3>Homework:</h3>
  <p> Perusall on Stuxnet Due tomorrow</p>
 
@@ -174,7 +337,8 @@ function closeNav() {
   <p><a href="#TOP">go back to the top of the page</a></p>
 </div>
 <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
-<div class="contentBlock" id="2024-02-11n">
+<div class="contentBlock" id="2025-02-11n">
+  <h5> 2025-02-11</h5>
   <h2>Do Now</h2>
   <p>Consider dates in the format YYYY-MM-DD or YYYY/MM/DD, how do you match that using regex? (assume starting from the year 1000)</p>
   <p>What if the year can be 2 or 4 digits. YY-MM-DD ? What if the MM and DD can be 1 digit, e.g. 4 instaed of 04</p>
