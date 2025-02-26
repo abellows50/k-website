@@ -52,6 +52,7 @@ function closeNav() {
     <li> <a href="#2025-02-11n">02-11 Skill stacks</a></li>
     <li> <a href="#2025-02-12n">02-12 Cryptography</a></li>
     <li> <a href="#2025-02-13n">02-13 Monoalphabetic ciphers</a></li>
+    <li> <a href="#2025-02-26n">02-26 polyalphabetic ciphers</a></li>
   </ul>
   <h3>Assignments</h3>
   <ul>
@@ -74,6 +75,124 @@ function closeNav() {
 <!-- To Hide elements:
 <div style="display:none"> HIDDEN CONTENT </div>
 -->
+
+<div class="contentBlock" id="2025-02-26n">
+  <h5> 2025-02-26 </h5>
+  <h3>Classwork</h3>
+  <p>Use Terminal Commands to sort your frequencies from high to low, and only look at the top 5.</p>
+
+  <h3>Examples that should work:</h3>
+  <p>Print the frequencies of A-E</p>
+  <pre>make frequency ARGS="alice.txt" | head -n 5</pre>
+  <p>Print the frequencies of W-Z</p>
+  <pre>make frequency ARGS="alice.txt" | tail -n 5</pre>
+
+
+  <h3>Polyalphabetic ciphers</h3>
+
+  <p>
+    Multiple monoalphabetic ciphers are used to encrypt
+    There are rules to determine when to use each one.
+    The result of this is that two letters that are the same in the ciphertext do not have to be the same in plaintext.
+  </p>
+
+  <h4>Simple example: </h4>
+  <p>Even positioned letters shift up by one. Odd positioned letters shift down by one.</p>
+  <p>Plaintext:</p>
+  <code>m<strong>e</strong><strong>e</strong>t m<strong>e</strong> <strong>a</strong>t the hot dog st<strong>a</strong>nd</code>
+  <p>Ciphertext:</p>
+  <code>n<strong>df</strong>s n<strong>d</strong> <strong>b</strong>s ugf gps enh ru<strong>z</strong>oc</code>
+
+  <p>In this cipher:</p>
+  <p> <strong>a</strong> can be either <strong>b</strong> or <strong>z</strong></p>
+  <p> <strong>e</strong> can be either <strong>d</strong> or <strong>f</strong></p>
+
+  <h3>Playfair Cipher:</h3>
+  <p>This uses a 5x5 table of letters which acts as the key. This means one letter must be omitted, often the I and J are combined, or Q is left out.</p>
+
+  <pre>Example:
+    P L A Y F
+    I R E X M
+    B C D G H
+    K N O Q S
+    T U V W Z
+  </pre>
+
+  <p>The word is then broken up into groups of two letters, and then those pairs are converted into ciphertext using the table.</p>
+
+  <ol>
+    <li>If the letters are on the same column, use the letters to their right to replace them. (this can be a variable in the encryption methodology)</li>
+    <li>If the letters are on the same row, use the letters below them to replace them. (this can be a variable in the encryption methodology)</li>
+    <li>If the letters are different, replace them with the letters on the same row, but in the column of the other letter (it would make a rectangle)</li>
+    <li>If the letters are the same, replace the 2nd one with an X (or Q if you removed X) and then encrypt using the prior rules. (The least frequent letter is used for this to make it obvious when decrypting as double letters are much more common than X.)</li>
+  </ol>
+
+
+  <p>Let us use this to encrypt a short message:</p>
+
+  <pre>Whitehat</pre>
+
+  <p>Look at pairs of letters:</p>
+
+  <pre>WH IT EH AT</pre>
+
+  <p>
+    Imagine the 2 plaintext letters WH are opposite corners of a rectangle,
+    that pair of letters will be substituted with the letters in the other
+    opposite corners </p>
+
+  <pre>
+    P L A Y F
+    I R E X M
+    B C D G H
+    K N O Q S
+    T U V W Z
+  </pre>
+
+  <p>WH becomes ZG </p>
+  <p>IT becomes RU (vertical letters use the ones to the right)</p>
+  <p>EH becomes MD</p>
+  <p>AT becomes PV</p>
+
+  <p>Result: </p>
+  <p>ZGRUMDPV</p>
+
+  <p>Decrypt using the opposite operations. First break up the ciphertext in to pairs: ZG RU MD PV, then run the same rules, except vertical goes left /horizontal goes up.</p>
+
+
+  <h3>Try to decode:</h3>
+  <p>Encode : Same row letters use cell on the right. </p>
+  <p>Encode : Same column uses cell below.</p>
+
+  <p>"SIHTHTELMBVIDFSBKOKCWYCZSY"</p>
+  <p>using the key: "ABCDEFGHIKLMNOPQRSTUVWXYZ" (no 'J')</p>
+  <p>Decode : Same row letters use cell on the left. </p>
+  <p>Decode : Same column uses cell above.</p>
+
+  <h3>Frequency:</h3>
+  <p>This is plaintext:</p>
+  <p> Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do: once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, “and what is the use of a book,” thought Alice “without pictures or conversations?”
+
+So she was considering in her own mind (as well as she could, for the hot day made her feel very sleepy and stupid), whether the pleasure of making a daisy-chain would be worth the trouble of getting up and picking the daisies, when suddenly a White Rabbit with pink eyes ran close by her.
+
+There was nothing so very remarkable in that; nor did Alice think it so very much out of the way to hear the Rabbit say to itself, “Oh dear! Oh dear! I shall be late!” (when she thought it over afterwards, it occurred to her that she ought to have wondered at this, but at the time it all seemed quite natural); but when the Rabbit actually took a watch out of its waistcoat-pocket, and looked at it, and then hurried on, Alice started to her feet, for it flashed across her mind that she had never before seen a rabbit with either a waistcoat-pocket, or a watch to take out of it, and burning with curiosity, she ran across the field after it, and fortunately was just in time to see it pop down a large rabbit-hole under the hedge. </p>
+  <p>This is ciphertext:</p>
+  <p style="word-wrap:break-word">  BKHDCYDPCAHJSDSNLIYTJBQYCTEYHSAEKJXNSYSJLIEVJCSTNXYJTMOSJCCBOLDKENGIBUNSILTYIJLIYTENKODAMTRYHDDTJCFCASDYATAENSYTRJACNYKLJCSTNXYJWCDPTCBENSLGYPJSFCISKTHDPYTCTNWHKOYBSTEPJNSXNSJSDKCXFCSJTPJCXPJTKFELKLRJKYHIPENGDAXHRJKYPQHDPYTCTNWHKOYBSTEPJNSXTNRICYDPEMSXNICTNSHJMICTMYONNSEBRXBOKBXDRIADKYNBJKSPJCJMSEEUKCEAJCPHDYBOYBTWQNDYATUESITPAUNICMJYJCSPJCQKABPXTCKJKCNFLIBEDFTXHMDFMXKYNBCAYMSPJRJCPSKYGQJTGHJYSJLIAUDKASHDNFLIRJAEDFXNDTCMDOPXIDEAOMUECMJSCTBCDGRYJSFRNSOAEJTSDKBMNTACWJCTRJCTCYDPOKRJNSIQLYCTWTCOCPPFGQDJOSFCSOMTINEBNGDARJNSNFPTLYCTWOWAJMYPKJRJCYEUYTJCCPRJCTBCDGPTEUYTJSTDKGMJEACPMJEACPNXFCNVQGBOEPCYJCSXJCRJKYHISJYTYBPCJPCTUCSCXNYTDWAWSWTCESMJCTRJEPRIJTVFJRYTFCYBYMSICTAEEPRJNXAVPESYRJJYHNDJPENVNQDYCOAEPVJSDOEPWPBKAVRYJCOSJCPCDVDGPEERAFNVOVYTKLCUEPHMKYYTGJPTUCNXREKEPQMEOAPESIMKKLAEEPJSDKESJCMIWPSHAEKOBKHDDTPESPAEYTJCPHDYJYJKSHPJKBRIAEBDTMXDRICTNHSIRJEPRICJBEODYBQCAJMTDTDYDOCPBCDGRYJSJCJSJCPCUCNXREKEPQMEOAYTPCUCREJRTYFPJTYPKJJSDKECWPSNLIXHRJAWSHNTJSXTJCPCKDHWNTTPJCGJBOEBJPCTJSDKAIMTPYKDYJOVUCTIXPSJOSHNJYNTDYDJPQKTENXMBKCPJBPCDVDGRJKMAYSICTRJCJAEJB</p>
+
+   <p>Here is a useful tool to compare the letter frequencies.  <a href="https://www.101computing.net/frequency-analysis/">https://www.101computing.net/frequency-analysis/</a> </p>
+   <p><strong>Task:</strong> Compare the letter frequencies above using this tool.</p>
+
+
+  <h3>Other Polyalphabetic Ciphers</h3>
+  <p>Basic understanding: What does having multiple alphabetic substitutions do to prevent the code from being broken?</p>
+  <p>Creative: How could we design a more secure Polyalphabetic cipher?</p>
+  <p>Fun fact: encode and decode are not symmetric operations, but encode ten times is the same as not applying any changes. How can we use this property to "decode" using encode.</p>
+
+
+
+<p><a href="#TOP">go back to the top of the page</a></p>
+</div>
+
 <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
 <div class="contentBlock" id="2025-02-14n">
   <h5> 2025-02-14♥ </h5>
