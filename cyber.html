@@ -52,10 +52,12 @@ function closeNav() {
     <li> <a href="#2025-02-11n">02-11 Skill stacks</a></li>
     <li> <a href="#2025-02-12n">02-12 Cryptography</a></li>
     <li> <a href="#2025-02-13n">02-13 Monoalphabetic ciphers</a></li>
-    <li> <a href="#2025-02-26n">02-26 polyalphabetic ciphers</a></li>
+    <li> <a href="#2025-02-26n">02-26 polyalphabetic ciphers Playfair</a></li>
+    <li> <a href="#2025-02-27n">02-27 Vigenere </a></li>
   </ul>
   <h3>Assignments</h3>
   <ul>
+    <li> <a href="#2025-02-27h">02-27 Lab1.5 </a></li>
     <li> <a href="#2025-02-13h">02-13 Lab01 monoalphabetic ciphers</a></li>
     <li> <a href="#2025-02-11h">02-11 perusall stuxnet</a></li>
     <li> <a href="#2025-02-07h">02-07 HW05 sshlogs</a></li>
@@ -76,6 +78,207 @@ function closeNav() {
 <div style="display:none"> HIDDEN CONTENT </div>
 -->
 
+
+<!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
+<div class="contentBlock" id="2024-02-27n">
+<h5> 2025-02-27</h5>
+<p>
+  The vigenere cipher is a Polyalphabetic cipher that uses 26 different substitution ciphers.
+  A string of text key is used to determine which cipher to use.
+  The keyword is looped when the message is shorter than the key.
+  The below is used for this cipher and is called a tabula recta,
+  it is a 26 by 26 grid where each row is shifted one additional time.
+</p>
+<img loading="lazy" src="img/tabularecta.jpg" width="500px">
+<p>Let us pick a key to use and a plaintext to encrypt. You repeat the key to fit the length of the plaintext.</p>
+<p>Plaintext: asimpleexample</p>
+<p>Key: battista</p>
+<code>
+  asimpleexample</br>
+  battistabattis</br>
+</code>
+<p>Align the key with the plaint text. For every pair of letters, the top row of the table is for the key letter, the left column labels are for the plaintext. The location of the intersection is the ciphertext.</p>
+<h4>First letter pair</h4>
+<p><strong>a</strong>simpleexample</p>
+<p><strong>b</strong>attistabattis</p>
+<img loading="lazy" src="img/vigenereFirstLetter.jpg">
+<h4>Second letter pair</h4>
+<p>a<strong>s</strong>impleexample</p>
+<p>b<strong>a</strong>ttistabattis</p>
+<img loading="lazy" src="img/vigenereSecondLetter.jpg">
+<h4>Third letter pair</h4>
+<p>as<strong>i</strong>mpleexample</p>
+<p>ba<strong>t</strong>tistabattis</p>
+<img loading="lazy" src="img/vigenereThirdLetter.jpg">
+
+<h4>Finish Encoding the example above!</h4>
+<code>asimpleexample (plaintext)</br>
+  battistabattis (keytext)</br>
+  BSB??????????? (ciphertext)
+</code>
+
+<h4>Decoding</h4>
+<p>Decoding the ciphertext requires that you know the key, and you align it with the ciphertext!</p>
+<code>
+  battistabattis (keytext)</br>
+  BSB??????????? (ciphertext)
+</code>
+
+<h4>First letter pair to decode</h4>
+<p><strong>b</strong>attistabattis</p>
+<p><strong>B</strong>SB?????</p>
+<p>
+  Use column b, and find the B in that column. Move to the leftmost letter that aligns with that B... which is the A.
+</p>
+<img loading="lazy" src="img/vigenereFirstLetter.jpg">
+
+<h3>The message fully encoded is:</h3>
+
+<h5>BSBFXDXEYAFITW</h5>
+
+<h2>Try to Decode:</h2>
+<pre>Ciphertext: LBTQRJCDFIGNWIIK
+Key:        SUPERSUPERSUPERS</pre>
+
+<h4>Why is this better?</h4>
+<p>Look at this plaintext:</p>
+<code>Aged twenty six, Vigenere was sent to Rome on a diplomatic mission. It was here that he became acquainted with the writings of Alberti, Trithemius and Porta, and his interest in cryptography was ignited. For many years, cryptography was nothing more than a tool that helped him his diplomatic work, but at the age of thirty nine, Vigènere decided that he had amassed enough money to be able to abandon his career and concentrate on a life of study. It was only then that he began research into a new cipher.</code>
+
+<p>Now let us look at two ciphertexts.</p>
+<p> The first one is encrypted with a monoalphabetic cipher:</p>
+<code>ETYR QVYIQX OBW, UBTYIYMY VEO OYIQ QJ MJHY JI E RBKGJHEQBC HBOOBJI. BQ VEO AYMY QAEQ AY NYCEHY ECLSEBIQYR VBQA QAY VMBQBITO JP EGNYMQB, QMBQAYHBSO EIR KJMQE, EIR ABO BIQYMYOQ BI CMXKQJTMEKAX VEO BTIBQYR. PJM HEIX XYEMO, CMXKQJTMEKAX VEO IJQABIT HJMY QAEI E QJJG QAEQ AYGKYR ABH ABO RBKGJHEQBC VJMF, NSQ EQ QAY ETY JP QABMQX IBIY, UBTYIYMY RYCBRYR QAEQ AY AER EHEOOYR YIJSTA HJIYX QJ NY ENGY QJ ENEIRJI ABO CEMYYM EIR CJICYIQMEQY JI E GBPY JP OQSRX. BQ VEO JIGX QAYI QAEQ AY NYTEI MYOYEMCA BIQJ E IYV CBKAYM.</code>
+<p>The second is encrypted with a vigenere cipher</p>
+<code>ETGU RLXRGA JGM, OMTGECGX ANU JCCM XB TFKT HR N FZNAHQNVZA BBWFKFL. XM ANU YCGX XUCK FT UIPCDC PVUHCZLIXH JKKF IAI JTZRXGKF QW YAUIEVZ, RGBXUGDGJL EAF GMGME, NPU FXL MAVVPTLX VP TPNIXBIIYEAC JCJ GVGMGGU. DDK QNPP WTTVF, EIWEMSTTRNWR ANU EMIAMAI DMGX XUCE Y IHSY VYYI AIYRVB WBQ UKJ BXIPBORRXV ABTB, ZJM EG VYC PZI BH KFXKXL PZLT, OMTGECGX HREZBTW XUCK FT AEQ CDYHLIQ GEMJZL ZQECN MS OG RZAX XB CSYCWSA JZQ RTVRGI YCW GBPTCCMVNVV MC T PVHV MU LXHFP. GI PEF QEJN MLRP KFPM LR DVEPG VRUVYGVL VPKM P GIJ EZNWXV</code>
+<p>Assuming you ran frequency analysis on these texts and generate graphs, you could see the following:</p>
+
+<p>letter distribution of plaintext:</p>
+<img loading="lazy" src="img/plaindist.jpg">
+
+<p>letter distribution of monoalphabetic cipher:</p>
+<img loading="lazy" src="img/monocipherdist.jpg">
+
+<p>letter distribution of vigenere cipher:</p>
+<img loading="lazy" src="img/vigeneredist.jpg">
+
+
+
+
+<h3>Shortcomings of Vigenere cypher</h3>
+<p>
+  An attacker that knows the length of the key (or calculates it based on the distance between matching ciphertext)
+  they can then break the cipher by analyzing subsets of letters.
+  If the key length is 3, then you can make three groups of letters,
+  and those groups will all have the same frequency patterns as normal text.</p>
+
+<h4>Repetitions in Ciphertext are a weakness:</h4>
+
+<p>It is not difficult to find the length of the key when keys are sufficiently short.
+  Searching for blocks of ciphertext that look the same we can assume they are the same plaintext
+  (for sufficiently large blocks of matching text, clearly not every pair of matching letters is the same plaintext.)
+</p>
+
+<p>This is because repetition in the plaintext, could align with the same letters of the key:</p>
+
+<h4>Example:</h4>
+
+<code>
+  "saysyoussaysmessaysitsnow" (plaintext)</br>
+  "paperpaperpaperpaperpaper" (key)
+</code>
+<p>Two of the words "say" ("<strong>say</strong>syoussaysmes<strong>say</strong>sitsnow") align with "pap" thus they will have the same ciphertext </p>
+
+<h3>Lets look at how we can find the keylength</h3>
+
+<pre>
+  VHVSSPQUCEMRVBVBBBVHVSURQGIBDUGRNICJQUCERVUAXSSR
+  ^     ^           ^                 ^
+  0     6           18                36
+</pre>
+<p>The distance between the repetitions of VHVS is 18.</p>
+<p>The key length could be 18, 9, 6, 3, 2 or 1 character long.</p>
+<p>The distance between the repetitions of QUCE is 30 characters.</p>
+<p>The key length could be 30, 15, 10, 6, 5, 3, 2 or 1 character long.</p>
+<p>By taking the intersection of those sets, one could safely conclude that the most likely key length is 6 since 3, 2, and 1 are unrealistically short.</p>
+
+
+
+<h4>Use longer keys!</h4>
+
+<p>Frequency analysis fails when the key is a large fraction of the message, certainly when the key is equal in length to the message.</p>
+
+<h3>Computers can do it too!</h3>
+<p>On paper a lookup table is faster for humans.</p>
+<p>Think about how a computer program could be implemented.
+  In effect, the index of each row in the table tells you
+  how many characters to shift each letter of the plaintext by.
+  <br>Row (A) is 0, so there is no rotation,
+  <br>row (B) is 1, so you rotate left by 1.
+  <br>row (C) is 2, so you rotate left by 2,etc.
+</p>
+
+
+
+<h3>Crack Vigenere</h3>
+
+<h3>Homework (Lab 1.5)</h3>
+<p>You have 2 nights to work on this assignment. It requires that your lab01 works. If that is not the case you need to speak to me.</p>
+
+<p>Github link: <a href="https://classroom.github.com/a/FEHJ4YDO">https://classroom.github.com/a/FEHJ4YDO</a> </p>
+<p>Here is some well known text encrypted with  a Vigenere cypher (using a reasonably short key relative to the text size):</p>
+<p style="word-wrap:break-word">
+  DVYCNZVJIHNVMNBDFTRRSNNXPIRMFMZZOYUFXGBEHKEVDDFVMTURWDAXMDGKMZBIOJZFOZLZOHLGVMFVBIQEPOUZOBCRSOVTVGNIUJVEUZEVTOZVPIFYPMRZUCBLHCGZXJHCENNZMVOFVONCJOGCFVAUTZRKIZJRUZEPQVEKPAGYFRBIMYVKJNNNBTVYBQRFGYEZWDAXPASKIZFGMZREBIQIFBHCBOVEHOUVDDETVGNKJJANIZAVWZEZGDAUNTFVMATIPRVEHBEZNVOFVOGYFHBLUCJYFIRMFMVKJNNUBHCUSDMQMTAFWZZSFMVENTFFVGJYFIRMFMVWJIQDZNRCGDAMPGHEUVEZMTCRVNVEHWRWPMRTPASZORNIFCBLTZFROYOIJITZOBHGUCRIFVEFGZIVSTSLOZERMDZVFONEEZFGFXVRMGLNIZAVWZEDZCLGPNTVUNHTIVALQKRIIVAUPAZVUCNKJOEVRPVIFNNJUMBEHHBIBGCIJIPZQGRKPKEVWZAKNZSIPHQVMDOVSVGVMTFKFKCZOBVEUJGYFNGIFZGROYZVUCBUJXNCMTXEPXXZOBCVPKYVTCNKTJSWUCREJVPTPPAKJOUZHCGZNZGFHZGKPNRRBNFFPINJJXNEUCVJJNZPTPOJUDGLUZSFSKVJUJYROYORMGJZUCNGIDYFTJCYJXNCGGBLSDFYDVGFUCEFXNUZNNRCGPCFOCVJTRBIEDDLJZGCZONBFOBKIZFYJKGYFMRZTIBKIDAXTPEGSDFZOBVEUCVJJAGYFTOLUFAVXDGRMHBJUVYCNZAZOOUVJMQVHMRVTJZVUDZVPMBKIZETIZEZTCIVSTAVBMYPUCRJBHRWFZYZOBFKPRNIENGYFJPVBIJZUCZVUCRIFIBNJNLFVMVETPYRSXVKZJSKIZZROCNKUJRJCZYKFYEFVIQSZRURSQRJBNVEEDNEJNYVTWLTPMNCSZRWTXBDNZETFNHISJHEENVKXDGYIZEJVMSIJBUKBIQCFAGKIZFKSZRKTONBFTBLXVGVSRNIEDGJFSGIFHRUPRAKPRAZTOUVCVGKFMLNIZEVUCNKOJOCFHBCFDFNBNUVEWLNBQRJBIQTPJYVEWLSSZRQFNJYJXURGZJYPPEJQMRMJJHJXZEVPPGFGNVXIOBWMVAUMJBBBOGYFXEFXYFFGRNKFMTRAZEJUCRIF
+</p>
+
+<ol>
+  <li>(MANUALLY) Find repeating groups of letters. (This is not a code exercise! Search by eye for repeated strings, or use control-F (search))</li>
+  <li>(MANUALLY) Calculate the distance between the matching strings. This takes 2 seconds using a programming language e.g. <pre> <code>$python
+  >>> len("asdlfkjalfjaslfjaslfjaslfjkasflj")
+  34
+  >>></code></pre> or
+  <p><code>$echo -n "asdlfkjalfjaslfjaslfjaslfjkasflj" | wc</code></p> <li>
+  <p>Note, echo adds a "\n" to the end of your text, so the <code>-n</code> flag will prevent that. </p>
+
+<li>(MANUALLY) Try to find the key length by finding the overlapping common factors of the distances. (do this manually)</li>
+<li>(PROGRAM) Assuming you have the correct key-length, break the text into key-length different piles  (use a programming language, but python slices work well.)</li>
+<li>(PROGRAM) Run your ceasar cracker from your 1st lab to get decoded strings.</li>
+<li>(PROGRAM) Merge the decoded strings back together (use a programming language)</li>
+</ol>
+
+<h3>String concatenation is slow...</h3>
+<p>For large data sets, you do NOT want to use a bunch of string concatenation operations in java or python. (Since strings are mutable in c, you just need a large enough buffer.)</p>
+<pre><code>public class StringBuilderExample {
+    public static void main(String[] args) {
+        StringBuilder sb = new StringBuilder();
+        //slow way commented out
+        //String s =  "";
+        for (int i = 0; i < 1000000; i++) {
+            sb.append("Number: ").append(i).append("\n");
+            //s += "Number: ";
+            //s += i + ;
+            //s += "\n";
+        }
+        String result = sb.toString();//faster than calculating s
+    }
+}</code></pre>
+
+<pre><code>string_list = []
+#s=""
+for i in range(1000000):
+        string_list.append("Number: ")
+        string_list.append(str(i))
+        string_list.append("\n")
+        #s+="Number: ";
+        #s+=str(i)
+        #s+="\n"
+
+final_string = "".join(string_list)#faster than calculating s
+</code> </pre>
+
+
+<p><a href="#TOP">go back to the top of the page</a></p>
+</div>
+
+<!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
 <div class="contentBlock" id="2025-02-26n">
   <h5> 2025-02-26 </h5>
   <h3>Classwork</h3>
