@@ -217,6 +217,62 @@ Key:        SUPERSUPERSUPERS</pre>
 </p>
 
 
+<h3>Use Long Keys</h3>
+<p>If the keyword is <strong>as long as</strong> the plaintext, the cipher is unbreakable if a new key is used for every message.</p>
+<p>Suppose you recieved the following encrypted message:</p>
+</p><code>JTLOMFJRCSXM</code>
+<p>If the receiver uses the keyword <code>hfikeniaoitz</code> they would receive the message:</p>
+
+<p> <code>CODEISBROKEN</code> </p>
+
+<p>If the receiver uses the keyword <code>hfikenrnaygi</code> they would receive the message:</p>
+
+<p><code>CODEISSECURE</code> </p>
+
+<p>
+  Even if it were possible to calculate all the possible keywords of length 12 in a reasonable amount of time, the ciphertext would produce every sensible message of length 12.
+   There is no way to determine which message the sender wished to communicate
+ </p>
+
+<p>One can use a long key like a paragraph or chapter of a book, and that would prevent frequency analysis.</p>
+
+
+<h3>Fake a long key!</h3>
+<p>
+  Another way to make a long key is to encrypt it multiple times using keys of different lengths:
+</p>
+<p>
+  A key of GO would shift letters by 6 then 14 then 6 then 14
+</p>
+<p>
+  A key of CAT would shift letters by 2 then 0 then 19...
+</p>
+<p>Encrypting once with each key has an effective length longer than the two keys:</p>
+<code>Text:  ATTACKATDAWN</br>
+Key1:  GOGOGOGOGOGO</br>
+Key2:  CATCATCATCAT [pairs of letters after 6th character]</br>
+Ciph:  IHSQIRIHCQCU</br>
+</code>
+
+<ul>
+  <li>A is shifted by G then C (6 + 2)</li>
+  <li>T is shiffted by O then A (14 + 0)</li>
+  <li>T is shifted by G then T  (6 + 19)</li>
+  <li>A is shifted by O then C (14 + 2)</li>
+  <li>C is shifted by G then A (6 + 0)</li>
+  <li>K is shifted by O then T (14 + 19)  [after this it repeats back to G+C]</li>
+</ul>
+<p>
+  Key1 has length of 2, Key2 has length of 3, but the effective length of the key is the product of their lengths or 6, as there are 6 different shifted totals created by this. (The effective length is the least common multiple of all the keys) Prime numbers LCM's will be the product of their lengths which allows for very large effective key sizes.
+</p>
+<p>
+  Encrypting three times using key sizes 5, 13, 19 would create an effective key size of 1235
+</p>
+<p>
+  Note that for the Equal length keys such as "FISH" "PORK" "CHIP" "YUMM" would NOT produce a better result,
+  as their relative lengths have a common multiple of 4.
+</p>
+
 
 <h3>Crack Vigenere</h3>
 
@@ -238,6 +294,7 @@ Key:        SUPERSUPERSUPERS</pre>
   <p><code>$echo -n "asdlfkjalfjaslfjaslfjaslfjkasflj" | wc</code></p> <p>Note, echo adds a "\n" to the end of your text, so the <code>-n</code> flag will prevent that. </p> </li>
 
 <li>(MANUALLY) Try to find the key length by finding the overlapping common factors of the distances. (do this manually)</li>
+<li>BEFORE YOU CODE - place a text file with your explanation of how you calculated the keylength in the repo and commit and push it!</li>
 <li>(PROGRAM) Assuming you have the correct key-length, break the text into key-length different piles  (use a programming language, but python slices work well.)</li>
 <li>(PROGRAM) Run your ceasar cracker from your 1st lab to get decoded strings.</li>
 <li>(PROGRAM) Merge the decoded strings back together (use a programming language)</li>
