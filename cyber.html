@@ -81,6 +81,93 @@ function closeNav() {
 -->
 
 <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
+<div class="contentBlock" id="2025-03-07n">
+  <h5> 2025-03-05</h5>
+  <h3>max text size 12000</h3>
+  <p>As long as orwell can be encoded or decoded you are good.</p>
+  <h3>max key size</h3>
+  <p>The max key size to check is 12</p>
+
+  <h3>Test your encode/decode:</h3>
+  <pre><code>#!/bin/bash
+#Change to any examples from class:
+answer=THEANSWERISFORTYTWO
+key=COMPLEX
+cipher=VVQPYWTGFUHQSOVMFLZ
+echo -n $answer > plain.txt
+echo -n $key > key.txt
+echo -n $cipher > cipher.txt
+echo "Attempting to encode:"
+make encode ARGS="plain.txt key.txt"
+echo "Expected result:"
+echo $cipher
+echo ""
+echo "Attempting to decode:"
+make decode ARGS="cipher.txt key.txt"
+echo "Expected result:"
+echo $answer</code></pre>
+
+This helps if you wanted to try different possibilities automatically:
+<pre><code>#!/bin/bash
+#Test with any of the examples from class:
+answer=THEANSWERISFORTYTWO
+key=COMPLEX
+cipher=VVQPYWTGFUHQSOVMFLZ
+
+echo -n $answer > plain.txt
+echo -n $key > key.txt
+echo -n $cipher > cipher.txt
+echo "Attempting to encode:"
+en=$(make encode ARGS="plain.txt key.txt")
+if [[ $en == $cipher ]];then
+        echo PASS
+else
+        echo FAIL $en vs $cipher
+fi
+echo "Attempting to decode:"
+de=$(make decode ARGS="cipher.txt key.txt")
+if [[ $de == $answer ]]; then
+        echo PASS
+else
+        echo FAIL $de vs $answer
+fi
+</code> </pre>
+
+<p>Finally, try using bash script arguments $1, $2 etc.</p>
+<pre><code>#!/bin/bash
+#INITIALIZE using CLI arguments
+answer=$1
+key=$2
+cipher=$3
+
+echo -n $answer > plain.txt
+echo -n $key > key.txt
+echo -n $cipher > cipher.txt
+
+en=$(make encode ARGS="plain.txt key.txt")
+if [[ $en == $cipher ]];then
+	echo PASS ENCODE
+else
+	echo FAIL decoded $en vs $cipher
+fi
+de=$(make decode ARGS="cipher.txt key.txt")
+if [[ $de == $answer ]]; then
+	echo PASS DECODE
+else
+	echo FAIL Decoded: $de vs $answer
+fi</code> </pre>
+<p>Now you can test both directions with a single line:</p>
+<pre><code>./test.sh THEANSWERISFORTYTWO COMPLEX VVQPYWTGFUHQSOVMFLZ
+PASS ENCODE
+PASS DECODE
+</code> </pre>
+
+  <p><a href="#TOP">go back to the top of the page</a></p>
+</div>
+
+
+
+<!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
 <div class="contentBlock" id="2025-03-03n">
   <h5> 2025-03-03</h5>
   <h3>Vigenere weakness</h3>
@@ -188,7 +275,7 @@ BAESASMFVMLKVVTVLSJWAGTIBSIFLLSSPRSTDZEWZWDHEOOZGNBZQJESRTAZGZBGVKXWGNLZLJPAVFFN
 </div>
 
 <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
-<div class="contentBlock" id="2024-02-27n">
+<div class="contentBlock" id="2025-02-27n">
 <h5> 2025-02-27</h5>
 <p>
   The vigenere cipher is a Polyalphabetic cipher that uses 26 different substitution ciphers.
@@ -623,7 +710,7 @@ There was nothing so very remarkable in that; nor did Alice think it so very muc
   Punctuation/special characters are completely discarded from the calculations.
   The denominator of the frequency should be the total number of letters counted.</p>
 <p>Assume the text uses the English alphabet to simplify our programs.</p>
-<p>Print out each letter and the frequency in the format:</p>
+<p>Print out each letter and the frequency in the format: (NO SCIENTIFIC NOTATION! Some languages convert small numbers to scientific notation)</p>
 <pre>
 A 0.04521
 B 0.00231
@@ -638,7 +725,8 @@ Z 0.0003
 <p>
   You must have a function that returns a list/array of the 26 frequencies in order, to make the next part easier.
 </p>
-<p>e.g. <code>freq("alice.txt")</code> returns [0.044521, 0.00231, ...]</p>
+<p>It is strongly suggested that your frequency function takes a string, you can read the file OUTSIDE of your frequency function and pass in the contents of "alice.txt" as a string</p>
+<p>e.g. <code>freq(alice_contents)</code> returns [0.08160897, 0.01369278, 0.022270495, ...] (the number of decimal places may be different but you should not round)</p>
 
 <h3>Test your frequency program</h3>
 
@@ -653,6 +741,7 @@ Z 0.0003
 <p>e.g.</p>
 <pre>$make frequency ARGS="alice.txt"</pre>
 <p>This enables a standard interface no matter what langage you use</p>
+<p>You should create </p>
 
 <h3>Part 1.2</h3>
 <p>Write a program that when given two filenames, calculate the distance between two different sets of letter frequencies of each file.</p>
