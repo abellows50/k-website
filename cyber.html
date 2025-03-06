@@ -55,6 +55,7 @@ function closeNav() {
     <li> <a href="#2025-02-26n">02-26 polyalphabetic ciphers Playfair</a></li>
     <li> <a href="#2025-02-27n">02-27 Vigenere </a></li>
     <li> <a href="#2025-03-03n">03-03 Vigenere encode/decode/crack </a></li>
+    <li> <a href="#2025-03-06n">03-06 Digital era cryptography</a></li>
   </ul>
   <h3>Assignments</h3>
   <ul>
@@ -79,9 +80,111 @@ function closeNav() {
 <!-- To Hide elements:
 <div style="display:none"> HIDDEN CONTENT </div>
 -->
+<!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
+<div class="contentBlock" id="2025-03-06n">
+  <h5> 2025-03-06</h5>
+  <h2>Perusall</h2>
+  <p>Perusall assignment on the enigma machine and its cracking is due on Monday the 10th 8am.</p>
+  <p>After the assighment, check out this super short video of Turing's 'Bombe' machine cracking a cipher https://www.youtube.com/watch?v=iBErQ9qKu5M</p>
+
+  <h2>TryHackMe</h2>
+  <p>All of you got an invite to TryHackMe at your stuy.edu addresses.</p>
+  <p>Please accept the invite and make sure you log in.</p>
+
+  <h3>What is the point of TryHackMe?</h3>
+  <p>TryHackMe is a great self directed learning tool. If you want to learn a lot fast, this can facilitate.</p>
+  <p>Reading the page and trying to understand it is the goal. If you just try to find the "correct answer" as fast as possible you will be missing a lot.</p>
+  <p>In the future your knowledge of these rooms will be challenged via practical activities.</p>
+
+  <h2>Create a How to document!</h2>
+  <p>As you learn ways of accomplishing goals, take notes in the form of a "linux/hacking" cheatsheet would be a very good idea. </p>
+  <p>e.g.</p>
+  <ul>
+    <li>How to transfer a file from the command line
+    <li>How to find the ssh logs of a linux computer
+    <li>How to display the hexadecimal dump of a file
+  </ul>
+
+  <h2>Pre computer Cryptography</h2>
+  <p>The best pre-computer ciphers are surprisingly effective.</p>
+  <p>The Enigma code was an important cipher historically and cryptographically speaking. You will learn about this in a homework assignment.</p>
+  <p>One time pad is an encryption technique that cannot be cracked, provided the single-use pre-shared key is larger than or equal to the size of the message being sent. This is equivalent to a vigenere with a key that is long enough for the entire message.</p>
+
+  <h2>Digital Era Cryptography</h2>
+  <h3>Encryption Types:</h3>
+
+  <h4>Symmetric Encryption </h4>
+  <p>TheSame key is used to encrypt and decrypt. (e.g. Password protected files)</p>
+  <img loading="lazy" src="img/keysymmetric.png" alt="Symmetric encryption image">
+  <p>Ceasar , Playfaire, Vigenere, and many other ciphers use the same key on both ends. The key must be exchanged ahead of time to allow the authorized parties to decrypt messages.</p>
+  <p>The most widely used digital cipher that use symmetric keys is AES (various number of bits). But there are others such as Blowfish/Twofish, RC4, RC5 ,DES.</p>
+
+  <h4>Hash functions</h4>
+  <p>A one way encryption (md5, sha, sha2, etc) that cannot be returned to the original form. </p>
+  <img loading="lazy" src="img/hash.png" alt="Hash Function image">
+  <p>This is often used for authentication purposes</p>
+  <p>When you send data you can check if that data was transmitted correctly by also sending the hash of the data along with the data. If the hash value of the received data matches the hash that was sent then the data was sent correctly.</p>
+  <p>You can store hashes of passwords. You can still hash what a user types in to compare against the stored hash, but an attacker cannot see everyone's password. </p>
+
+
+  <h4>Asymmetrical Encryption</h4>
+  <p>Different keys are used to encrypt and decrypt. (public key cryptography)</p>
+  <img loading="lazy" src="img/keyasymmetric.png" alt="Asymmetric encryption image">
+
+
+  <h4>Stream Ciphers</h4>
+  <p>One bit or byte is encrypted at a time. This uses a random string of bits called the cipherstream which is combined with the plaintext using XOR. </p>
+  <p>The resulting ciphertext can be decrypted using the same cipherstream and XOR again. Stream ciphers must always use a different ciperstream for each message. The cipherstream can be a pseudorandom set of bits, in which case the random seed used can be the key. Alternatively, a truly random string of bits can be created and both the sender and receiver can keep a copy, they must then agree on which parts of that cipherstream to use on each message. </p>
+  <table><tbody>
+    <tr>
+      <td>Plaintext</td>
+      <td> <code>...111010100111...</code> </td>
+    </tr>
+    <tr>
+      <td>Cipherstream <br> [this is the key used to encode AND decode] </td><td><code>...101011010110...</code> </td>
+    </tr>
+    <tr>
+      <td>Ciphertext     </td>
+      <td> <code>...010001110001...</code> </td>
+
+    </tr>
+  </tbody></table>
+
+  <p>The reason that stream ciphers must always use a different ciperstream for each message, is that an attacker can XOR the two ciphertexts together (see below). When the cipherstream is the same, and you XOR the two ciphertexts together the result is equivalent to the XOR of the two plaintexts. If the plaintexts are natural languages then the resulting stream can be analyzed to find the original messages. </p>
+  <ol>
+    <li>XOR is commutative</li>
+    <li>the inverse of a XOR is XOR'ing by the same value</li>
+    <li>This result is very easy to decode using the same key and the ciphertext.</li>
+  </ol>
+
+  <h3>Terminology</h3>
+  <p>
+    <strong>confusion</strong>
+    is the technique to ensure you do not give clues about the plain text in your ciphertext. This means we want the relationship between the ciphertext and the plaintext to be as complex as possible. Ceasar Cipher has poor confusion,
+    while polyalphabetic cipers have better confusion, enigmacode has much better confusion.
+  </p>
+  <p><strong>diffusion</strong> is the spreading of the statistical structure of the plaintext over the bulk of the ciphertext. This is done by transposing or permuting the data. This occurs in hashing when a small change modifies the entire result.</p>
+  <h3>Stream vs Block ciphers:</h3>
+  <p>
+    <strong>Stream ciphers</strong>
+    are high speed, no diffusion, low hardware complexity so it is often implemented by some hardware.
+    Each bit or byte is encrypted one at a time.
+  </p>
+  <p>
+    <strong>Block ciphers</strong> (tomorrow's notes)
+    Software implementation lowers the speed, padding is added to make the messages a multiple of the
+    block size. Each block is encrypted independently. Diffusion is possible within a block.
+  </p>
+
+  <h2></h2>
+
+
+  <p><a href="#TOP">go back to the top of the page</a></p>
+</div>
+
 
 <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
-<div class="contentBlock" id="2025-03-07n">
+<div class="contentBlock" id="2025-03-05n">
   <h5> 2025-03-05</h5>
   <h3>max text size 12000</h3>
   <p>As long as orwell can be encoded or decoded you are good.</p>
