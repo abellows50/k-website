@@ -80,6 +80,113 @@ function closeNav() {
 <!-- To Hide elements:
 <div style="display:none"> HIDDEN CONTENT </div>
 -->
+
+<!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
+
+
+<!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
+
+<div class="contentBlock" id="2025-03-07n">
+  <h5>2025-03-07</h5>
+
+  <h3>XOR</h3>
+  <p>Since xor is commutative:</p>
+  <p>Let <code>C1 = text1 xor Key</code> </p>
+  <p>Let <code>C2 = text2 xor Key</code> </p>
+  <p>Now if we did <code>C1 xor C2</code> it is the same as: <code>text1 x Key x text2 x Key</code>. </p>
+  <p>Since xor with the same thing twice cancels out, this is the same as <code>text1 xor text2</code> </p>
+  <p>This is weak because we may know part of the plain text, or key, or because we can perform frequency analysis.</p>
+
+  <h3>Block Ciphers:</h3>
+  <p>
+    In a block cipher, K bits are encrypted at a time.
+    If the length of the data is greater than K, you will
+    break the information into blocks of size K.
+  </p>
+
+
+  <p> <strong>Electronic Codebook (ECB)</strong> - Use the same key on each block of data. This is parallelizable since each block does not depend on the others.</p>
+  <img loading="lazy" src="img/blockECB.png" alt="">
+  <p>Patterns of the original data are visible because equal sections of plaintext will generate the same ciphertext as is evident when looking at images encrypted using this method:</p>
+  <p>Original:</p>
+  <p><img loading="lazy" src="img/tux.jpg" alt=""></p>
+  <p>Encrypted:</p>
+  <p><img loading="lazy" src="img/tuxECB.jpg" alt=""></p>
+
+
+  <strong>Cipher Block Chaining (CBC) / Output Feedback (OFB)</strong>
+  <p>You propagate data from one block to the next to make equivalent blocks of plaintext into unequal blocks ciphertext. You start with an initialization vector on the first block, and then use data from the previously encrypted block (the specifics depend on CBC/OFB) in the current block's calculation. </p>
+
+  <p>Both the key and the initialization vector are required for both encryption and decryption. </p>
+  <p>The encryption must be done sequentially. (Cannot be multi threaded)</p>
+  <p>Errors in transmitted ciphertext affect the decryption of future ones. Output feedback OFB fixes this.</p>
+  <p><img loading="lazy" src="img/blockCBCencrypt.png" alt=""></p>
+  <p><img loading="lazy" src="img/blockCBCdecrypt.png" alt=""></p>
+  <p>Patterns of the original data are no longer visible:</p>
+  <p>Original:</p>
+  <p><img loading="lazy" src="img/tux.jpg" alt=""></p>
+  <p>Encrypted:</p>
+  <p><img loading="lazy" src="img/tuxCBC.jpg" alt=""></p>
+
+  <strong>Integer counter Mode (ICM) / Segmented Integer Counter Mode (SIC)</strong>
+  <p>Counter mode: Instead of calculating the value to be used in the next block based on the prior block, a random number (Nonce) is used for the first block. That random value is then incremented by one for each subsequent block. This allows for parallelization and prevents errors in one block from affecting others.</p>
+  <p>Note: the key and the Nonce are required for both encryption and decryption</p>
+  <p><img loading="lazy" src="img/blockCTRencrypt.png" alt=""></p>
+  <p><img loading="lazy" src="img/blockCTRdecrypt.png" alt=""></p>
+
+
+  <h2>Programming languages are different</h2>
+
+    <p>Reminder: you have to do tryhackme rooms on time.</p>
+
+    <h2>PRE-LAB Preparations</h2>
+
+    <h3>C:</h3>
+    <p>Writing bytes directly in C is the default way to write to a file! This is super easy.</p>
+
+    <h3>Java:</h3>
+    <p>You can typecast an int to a byte! Then you can just write that to the file.</p>
+    <p>
+      Since in previous years java people never had issues with this section,
+      it is lower priority to give extra notes. I will add to this section only
+      if needed. On Piazza: It is OK to ask for or answer how to write the java syntax for this low level operation.
+    </p>
+
+    <h3>Python</h3>
+    <p>Opening files:</p>
+    <pre><code>with open("inputFileName", 'rb') as f: #read bytes mode
+    #code here</code></pre>
+    <p>Opening two different files:</p>
+    <pre><code>with open("inputFileName", 'rb') as infile, open("outputFileName", 'wb') as outfile:
+      #code here</code></pre>
+    <p>Python must open files in binary mode to write actual numbers. (mode is 'wb' to write bytes, or 'rb' to read bytes.)</p>
+    <p>In python use the to_bytes method to convert an int to a byte so it can be written in binary mode.</p>
+    <code>
+      i=10</br>
+      b = i.to_bytes(1, byteorder='little')</br>
+      f.write(b)</br>
+    </code>
+    <p>OR you can write your bytes using byte notation:</p>
+    <code>
+      f.write(b'\x0a') #write 10, note that this is Hexadecimal</br>
+    </code>
+    <p>To modify bytes you need to convert to another type like int:</p>
+    <pre><code>b = b'\x0a'
+  x = int.from_bytes(b,byteorder='little')
+  #modify x here
+  b = x.to_bytes(1, byteorder='little')
+  #important: the first argument represents writing a 1 byte value</code></pre>
+
+
+  <p><a href="#TOP">go back to the top of the page</a></p>
+</div>
+
+
+
+
+
+
+
 <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
 <div class="contentBlock" id="2025-03-06n">
   <h5> 2025-03-06</h5>
