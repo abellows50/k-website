@@ -56,9 +56,11 @@ function closeNav() {
     <li> <a href="#2025-02-27n">02-27 Vigenere </a></li>
     <li> <a href="#2025-03-03n">03-03 Vigenere encode/decode/crack </a></li>
     <li> <a href="#2025-03-06n">03-06 Digital era cryptography</a></li>
+    <li> <a href="#2025-03-11n">03-11 XOR cipher</a></li>
   </ul>
   <h3>Assignments</h3>
   <ul>
+    <li> <a href="#2025-03-11h">03-11 Lab3 </a></li>
     <li> <a href="#2025-03-03h">03-03 Lab2 </a></li>
     <li> <a href="#2025-02-27h">02-27 Lab1.5 </a></li>
     <li> <a href="#2025-02-13h">02-13 Lab01 monoalphabetic ciphers</a></li>
@@ -83,6 +85,76 @@ function closeNav() {
 
 <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
 
+<div class="contentBlock" id="2025-03-11n">
+  <h5>2025-03-11</h5>
+
+  <h2>Tryhackme</h2>
+  <p>In the future use the following link to see all assignments, when they are due, and if you completed them. <a href="https://tryhackme.com/r/assignments">https://tryhackme.com/r/assignments</a> </p>
+
+  <h2>Do Now:</h2>
+  <p>Calculate the binary representation of abYZ (hint 6162595a)</p>
+  <p>Now XOR the binary value with the binary of ZZZZ (5a5a5a5a)</p>
+  <p>What is the result in binary? in hex?</p>
+  <p>What happens if you try to convert this to ASCII?</p>
+
+  <h2>Use tools carefully</h2>
+  <p>This is a useful calculator: <a href="https://xor.pw/#">https://xor.pw/#</a> </p>
+  <p>This calculator will pad values with leading zeroes. Your lab does NOT have this behavior.</p>
+  <p>If you were to xor <code>"abYZ"</code> with <code>"a"</code> , the website would treat <code>"a"</code> like the hex number 00000061, providing the leading zeroes. Hint: xor(v,0) is just v.</p>
+
+  <h2 id="2025-03-11h">Lab03 Xor</h2>
+  <p>Repo link: <a href="https://classroom.github.com/a/tZ1CuxGJ">https://classroom.github.com/a/tZ1CuxGJ</a> </p>
+  <li><strong>URGENT:</strong> To simplify this lab, you can read/write one byte at a time, and not worry about little-endian writing in java/python.</li>
+  <p>By the end of the lab you should be comfortable with using bitwise operations and writing numbers directly to files.</p>
+  <p>You will be writing a program that can do the following:</p>
+  <ol>
+    <li>Print the hex values of a file (file can be binary or text doesn't matter)</li>
+    <li>encode a text file into a binary ciphertext file (by xoring it with a plain text key). </li>
+    <li>decode a binary ciphertext into standard out (by xoring it with a plain text key). </li>
+  </ol>
+
+  <h3>makefile recipes:</h3>
+  <ol>
+    <li>make hexdump ARGS="filename"</li>
+    <li>make encode ARGS="inputTextfile keyfile outputCiphertextfile"</li>
+    <li>make decode ARGS="inputCiphertextfile keyfile"</li>
+  </ol>
+  <h3>1.1 hexdump</h3>
+  <p>Your hexdump should be formatted like this: "41 42 61 62 0a 48 65 6c"</p>
+  <p>You can verify your hexdump by comparing to the xxd values! Your output should be the same as <pre><code>xxd -g 1 results.txt | sed -E 's/.*: (.*)  .*/\1/'| tr "\n" " "</code></pre></p>
+  <p>All bytes should be included, do not trim away leading zeroes.</p>
+
+
+  <h3>1.2 and 1.3</h3>
+  <p>Don't worry about the specifics of the encoding / decoding scheme right now.</p>
+  <p>As a preliminary encoding/decode you can do this:</p>
+  <ul>
+    <li>encode will increment each byte by 1 </li>
+    <li>decode will decrement each byte by 1</li>
+
+  </ul>
+  <p>This is just for testing purposes. It makes you focus on getting the reading bytes part working.</p>
+  <p>You should verify if the ciphertext is  correct using xxd (or your hexdump).</p>
+
+  <p>Note that 255 is the largest byte, so (255 wraps to 0)</p>
+
+  <strong>make encode ARGS="textfile keyfile ciphertextfile"</strong>
+  <p>In this recipe textfile is the input, ciphertextfile is the output file. <strong>It should not print anything.</strong> This is because we can't always print the ciphertext characters as you saw previously.</p>
+  <strong>make decode ARGS="inputCiphertextfile keyfile"</strong>
+  <p>In this recipe the output will be the decoded text.</p>
+
+  <h3>1.4</h3>
+  <p>Your encode/decode algorithm should apply a bitwise XOR. If the key is too short, repeat the key.</p>
+  <p>In java/c/python, the bitwise xor operator is just <code>^</code> </p>
+  <p>You can use a calculator, however, you must make sure you manually duplicate the key to match the plaintext length.</p>
+  <p><a href="https://xor.pw/#">https://xor.pw/#</a> </p>
+  <p>The do now / overview in class is important for this, you should be able to verify if the ciphertext is  correct using xxd.</p>
+  <p><a href="#TOP">go back to the top of the page</a></p>
+</div>
+
+
+
+<!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
 <div class="contentBlock" id="2025-03-10n">
   <h5>2025-03-10</h5>
     <h2>Happy
