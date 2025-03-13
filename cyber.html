@@ -149,7 +149,7 @@ print(c)  # Output: 6</code></pre>
   </ol>
   <h3>1.1 hexdump</h3>
   <p>Your hexdump should be formatted like this: "41 42 61 62 0a 48 65 6c"</p>
-  <p>You can verify your hexdump by comparing to the xxd values! Your output should be the same as <pre><code>xxd -g 1 results.txt | sed -E 's/.*: (.*)  .*/\1/'| tr "\n" " "</code></pre></p>
+  <p>You can verify your hexdump by comparing to the xxd values! Your output should be the same as <pre><code>xxd -p results.txt | sed 's/../& /g'</code></pre></p>
   <p>All bytes should be included, do not trim away leading zeroes.</p>
 
 
