@@ -57,6 +57,7 @@ function closeNav() {
     <li> <a href="#2025-03-03n">03-03 Vigenere encode/decode/crack </a></li>
     <li> <a href="#2025-03-06n">03-06 Digital era cryptography</a></li>
     <li> <a href="#2025-03-11n">03-11 XOR cipher</a></li>
+    <li> <a href="#2025-03-14n">03-14 manipulating files using xxd</a></li>
   </ul>
   <h3>Assignments</h3>
   <ul>
@@ -99,9 +100,198 @@ function closeNav() {
 
 <!-- --------------------------------------CONTENT BLOCK-------------------------------------------------- -->
 
-<div class="contentBlock" id="2025-03-12n">
-  <h5>2025-03-12</h5>
-  <p><a href="#TOP">go back to the top of the page</a></p>
+<div class="contentBlock" id="2025-03-14n">
+  <h5>2025-03-14</h5>
+  <h2>happy τ/2 day!</h2>
+  <img width="400px" src="img/magnum.png" alt="PI">
+
+
+  <h3>History</h3>
+  <p>In case you forgot, the <code>history</code> command can show you all of the commands you ran previously. </p>
+  <p>This can be used with grep to find how you did things.</p>
+
+
+  <h3>Bash Script </h3>
+  <p>reminder: you can put multiple statements into a script so that you can run the command again later without having to look through your history.</p>
+  <p>Bash Script</p>
+  <pre><code>#!/usr/bin/bash
+echo "hello"</code></pre>
+  <p>Zsh Script (because bash and ZSH behave differently , you may wish to use one or the other:)</p>
+  <pre><code>#!/usr/bin/zsh
+echo "hello"</code></pre>
+<p>You can also make functions:</p>
+    <pre>
+      <code>mcd () {
+  mkdir -p "$1"
+  cd "$1"
+}</code></pre>
+<p>
+  $1 is the first argument to the script/function.
+  Unlike other scripting languages, bash uses a variety of special variables to refer to arguments,
+  error codes, and other relevant variables. Below is a list of some of them.
+</p>
+
+<p>A more comprehensive list can be found here.</p>
+
+<ul>
+
+  <li>$0 - Name of the script</li>
+  <li>$1 to $9 - Arguments to the script. $1 is the first argument and so on.</li>
+  <li>$@ - All the arguments</li>
+  <li>$# - Number of arguments</li>
+  <li>$? - Return code of the previous command</li>
+  <li>$$ - Process identification number (PID) for the current script</li>
+  <li>!! - Entire last command, including arguments.
+    A common pattern is to execute a command only for it to fail due to missing permissions;
+    you can quickly re-execute the command with sudo by typing <code>sudo !!</code> </li>
+  <li>$_ - Last argument from the last command. If you are in an interactive shell,
+    you can also quickly get this value by typing Esc followed by .</li>
+
+</ul>
+
+
+<h2>Lab testing</h2>
+
+<p>"The most effective debugging tool is still careful thought, coupled with judiciously placed print statements" - Brian Kernighan, Unix for Beginners.</p>
+
+<h3>Test your assingments on wsl or a lab machine.</h3>
+
+<p>For your labs, your makefile must work on a clean clone ON THE LAB MACHINES.</p>
+<h3>Systems students can help other students with this:</h3>
+<p>Write a bash script that is intended to be executed in the main directory of your repo. The script (minimally) does the following:</p>
+<p>You are permitted to use your google-fu, and share ideas/resources with others!</p>
+<ol>
+      <li>
+          <p>Get the link remote repo from the current repo (use git remote -v)</p>
+          <p>Here is a command to help you put it into a variable: <code>cloneurl=`git remote -v | cut -d ' ' -f 1 | cut -d $'\t' -f 2 | head -n 1`</code> </p>
+      </li>
+      <li><p>Clone that repo from scratch in the parent directory of the repo.</p> </li>
+      <li>
+        <p>Change into that newly cloned repo</p>
+    </li>
+      <li>
+        Run the code using a test script that:
+        <ul>
+          <li> creates some test files</li>
+          <li>ONLY USES the make targets from the assignment. </li>
+          <li>In this case, <strong>Do not</strong> use <code>make compile</code> or <code> make run</code> This is project dependant.</li>
+        </ul>
+        <pre><code>#!/bin/bash
+echo -n "sf" > key1 #-n means no newline added to the output of the echo
+echo -n "aA" > plaintext1
+
+echo "Expected output: '61 41'"
+make hexdump ARGS="plaintext1"
+
+echo "encode Expected output '12 27'"
+make encode ARGS="plaintext1 key1 cipher1"
+xxd -p cipher1 | sed 's/../& /g'
+
+echo "hexdump Expected output '12 27'"
+make hexdump ARGS="cipher1"
+
+echo "Expected output: 'aA'"
+make decode ARGS="cipher1 key1"
+</code></pre>
+      </li>
+      <li>You can visually determine if the output is as expected. </li>
+      <li>Extra: You can try to do more interesting things by looking at stdout  <code>&gt</code>  and stderr <code>2&gt</code> terminal redirectionand  and verifying that there are no errors automatically! I am not providing notes on this but google a few things and see if you can hack together a bash script!</li>
+  </ol>
+  <p>Note how the echo command is dumping ONLY 2 bytes into the plaintext and key files because of the -n flag.</p>
+
+  <h2>Transfering files</h2>
+
+  <p>cp is  the copy command.</p>
+  <code>cp source destination</code>
+  <p>e.g.</p>
+  <code>cp ~/Download/file.doc ~/Documents/</code>
+  <p> You should know mv, cp as they have the same parameters.</p>
+  <code>mv ~/Download/file.doc ~/Documents/</code>
+  <h3>SCP</h3>
+  <p>scp has the same format:</p>
+  <code>scp source destination</code>
+  <p>EXCEPT the source and destinations can be remote hosts that you have ssh access to!</p>
+  <p>If the source is on marge you could use: "marge.stuy.edu:DIRECTORY/FILE"</p>
+  <p>
+  example: copy the file from your local machine current directory
+  to your home directory on marge:
+  </p>
+  <code>scp ./fileInCurrentDirectory.txt  marge.stuy.edu:~/</code>
+  <p>
+  example: copy all files that end in .java from your Documents directory on marge
+  to your Documents directory on your local machine,
+  but specify the user name (your personal device username is not the same as your stuycs username):
+  </p>
+  <code>scp amatsuyoshi24@marge.stuy.edu:~/Documents/*.java ~/Documents/</code>
+
+  <h2>Editing files using xxd's hexdump</h2>
+  <h3>Classwork:</h3>
+  <p>Copy the files from cyber resources into a classwork folder:</p>
+  <code>~/Documents/cyber_resources/fileEdit/win.txt</code></br>
+  <code>~/Documents/cyber_resources/fileEdit/lin.txt</code></br>
+  <code>~/Documents/cyber_resources/fileEdit/image.png</code></br>
+  <p>What tool can you use to download it?</p>
+  <p>What would the steps/commands be?</p>
+  <p>What other tool could you use? Even if you aren't familiar?</p>
+  <p>If you are not using a lab machine you need to get the files now!</p>
+
+
+  <h2>Comparing Files:</h2>
+  <p>DO IT: copy both win.txt and lin.txt to your home directory somewhere</p>
+  <p>DO IT: Make both files (win.txt and lin.txt) executeable using the chmod command</p>
+  <pre>chmod u+x FILENAME</pre>
+  <p>DO IT: <strong>Run the commands:</strong> <code>./win.txt</code> and <code>./lin.txt</code> and compare the results. </p>
+
+  <h3>xxd hex with metadata:</h3>
+  <p>You should remember the xxd command:</p>
+  <code>xxd input_file</code>
+  <p>This shows the hex values AND the plain text along side. Great for previewing the information while looking at the hex values. This is not ideal if you want to edit the results however.</p>
+  <h3>xxd to plain hex with no metadata:</h3>
+  <code>xxd -p input_file</code>
+  <p>This ONLY shows the hex values, and makes it easier to modify if you know which parts you are trying to edit.</p>
+  <p>You can redirect this to another file so you can save it!</p>
+
+
+
+  <h4>STOP AND DO IT!</h4>
+  <p>DO IT: <strong>View lin.txt and win.txt as hex. What is the difference?</strong></p>
+
+
+  <h3>Hexdump back into a binary file</h3>
+  <p>You can use xxd to get the plain text hex back to binary</p>
+  <p>Revert a plaintext hexdump back into binary, and save it into a file:</p>
+  <code>xxd -r -p input_file output_file</code>
+  <p>or:</p>
+  <code>xxd -r -p input_file > output_file</code>
+
+  <h3>Now you can convert the original file to plain text hex, edit that, then convert back to a new edited file:</h3>
+  <code>xxd -p FILE.original > temp</code></br>
+  <code>#EDIT YOUR temp FILE</code></br>
+  <code>xxd -p -r temp > FILE.new</code></br>
+
+  <p>This is another way to modify files that have line endings you don't like, or when nano appends a newline to the end of the file.</p>
+
+
+
+  <p>This is not always useful on text files, but you can tell the difference between a windows line ending and a linux line ending, and even fix it!</p>
+  <h3>Try fixing an image file with a bad header:</h3>
+  <p>PNG files are really great, but if you change ONE bit in the header, it will not open with an image viewer.</p>
+  <a href="https://en.wikipedia.org/wiki/Portable_Network_Graphics#File_header">https://en.wikipedia.org/wiki/Portable_Network_Graphics#File_header</a>
+  <p>To save you the page load:</p>
+  <table>
+    <tr><th>Values (hex)</th> 	<th>Purpose </th></tr>
+    <tr><td>89</td><td> 	Has the high bit set to detect transmission systems that do not support 8-bit data and to reduce the chance that a text file is mistakenly interpreted as a PNG, or vice versa.</td></tr>
+    <tr><td>50 4E 47 </td><td>	In ASCII, the letters PNG, allowing a person to identify the format easily if it is viewed in a text editor.</td></tr>
+    <tr><td>0D 0A </td><td>	A DOS-style line ending (CRLF) to detect DOS-Unix line ending conversion of the data.</td></tr>
+    <tr><td>1A </td><td>	A byte that stops display of the file under DOS when the command type has been used—the end-of-file character.</td></tr>
+    <tr><td>0A</td><td> 	A Unix-style line ending (LF) to detect Unix-DOS line ending conversion.</td></tr>
+  </table>
+  <h2>Section 4: Fix the PNG file</h2>
+  <p>GOAL: Use the xxd command to view the png file</p>
+  <p>You should copy this file to your home directory:</p>
+  <code>~/Documents/cyber_resources/fileEdit/image.png</code></br>
+  <p>Fix the header and convert the hex back to a normal using the -r flag of xxd.</p>
+
 </div>
 
 
